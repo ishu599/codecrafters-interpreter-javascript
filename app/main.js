@@ -26,5 +26,5 @@ const filename = args[1];
  if (fileContent.length !== 0) {
    throw new Error("Scanner not implemented");
  } else {
-   console.log("EOF  null");
+   console.log("( ()");
  }
