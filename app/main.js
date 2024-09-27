@@ -83,5 +83,5 @@ let hasInvalidToken = false;
 
 
 if(hasInvalidToken) {
-  process.exit(65)
+  process.exit(65);
 }
