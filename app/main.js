@@ -33,7 +33,7 @@ if (fileContent.length !== 0) {
       if (line[i] === "*") console.log("STAR * null")
       //if (line[i] === "/") console.log("SLASH / null")
      if (line[i] === "=" && line[i+1] === "=") console.log("EQUAL EQUAL == null")
-      if (line[i] === "=" && line[i+1] != "=") console.log("EQUAL EQUAL == null")
+      if (line[i] === "=" && line[i+1] != "=") console.log("EQUAL = null")
     }
     
   })
