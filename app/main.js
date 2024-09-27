@@ -32,7 +32,9 @@ if (fileContent.length !== 0) {
       if (char === ";") console.log("SEMICOLON ; null")
       if (char === "*") console.log("STAR * null")
       //if (char === "/") console.log("SLASH / null")
+      if (char === "=") console.log("EQUAL = null")
     }
+    if(line.includes("==")) console.log("EQUAL_EQUAL == null")
   })
   console.log("EOF  null")
 }
