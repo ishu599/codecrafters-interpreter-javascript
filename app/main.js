@@ -16,25 +16,26 @@ let hasInvalidToken = false
 if (fileContent.length !== 0) {
   const lines = fileContent.split("\n")
   lines.forEach((line, index) => {
-    for (const char of line) {
-      if (invalidTokens.includes(char)) {
+    for (let i = 0;i < line.length;i++) {
+      if (invalidTokens.includes(line[i])) {
         hasInvalidToken = true
-        console.error(`[line ${index + 1}] Error: Unexpected character: ${char}`)
+        console.error(`[line ${index + 1}] Error: Unexpected line[i]acter: ${line[i]}`)
       }
-      if (char === "(") console.log("LEFT_PAREN ( null")
-      if (char === ")") console.log("RIGHT_PAREN ) null")
-      if (char === "{") console.log("LEFT_BRACE { null")
-      if (char === "}") console.log("RIGHT_BRACE } null")
-      if (char === ",") console.log("COMMA , null")
-      if (char === ".") console.log("DOT . null")
-      if (char === "-") console.log("MINUS - null")
-      if (char === "+") console.log("PLUS + null")
-      if (char === ";") console.log("SEMICOLON ; null")
-      if (char === "*") console.log("STAR * null")
-      //if (char === "/") console.log("SLASH / null")
-     
+      if (line[i] === "(") console.log("LEFT_PAREN ( null")
+      if (line[i] === ")") console.log("RIGHT_PAREN ) null")
+      if (line[i] === "{") console.log("LEFT_BRACE { null")
+      if (line[i] === "}") console.log("RIGHT_BRACE } null")
+      if (line[i] === ",") console.log("COMMA , null")
+      if (line[i] === ".") console.log("DOT . null")
+      if (line[i] === "-") console.log("MINUS - null")
+      if (line[i] === "+") console.log("PLUS + null")
+      if (line[i] === ";") console.log("SEMICOLON ; null")
+      if (line[i] === "*") console.log("STAR * null")
+      //if (line[i] === "/") console.log("SLASH / null")
+     if (line[i] === "=" && line[i+1] === "=") console.log("EQUAL EQUAL == null")
+      if (line[i] === "=" && line[i+1] != "=") console.log("EQUAL EQUAL == null")
     }
-    if(line.includes("==")) console.log("EQUAL_EQUAL == null")
+    
   })
   console.log("EOF  null")
 }
