@@ -22,12 +22,17 @@ const filename = args[1];
 // Uncomment this block to pass the first stage
 
  const fileContent = fs.readFileSync(filename, "utf8");
-
+const invalidTokens = ["$","#","@","%"];
+let hasInvalidToken = false;
  if (fileContent.length !== 0) {
   
   let lines = fileContent.split('\n');
   for(let i=0; i<lines.length;i++) {
     for(let j=0;j<lines[i].length; j++) {
+      if (invalidTokens.includes(lines[i][j])) {
+        hasInvalidToken = true;
+        console.error('[line ${i+1}]: Error: Unexpected character: ${lines[i][j]')
+      }
       switch(lines[i][j]) {
         case '(':
           console.log("LEFT_PAREN ( null");
@@ -74,4 +79,8 @@ const filename = args[1];
   console.log("EOF  null");
 } else {
   console.log("EOF  null");
+}
+
+if(hasInvalidToken) {
+  process.exit(65)
 }
