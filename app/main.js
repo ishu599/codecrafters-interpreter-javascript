@@ -29,12 +29,18 @@ const filename = args[1];
   for(let i=0; i<lines.length;i++) {
     for(let j=0;j<lines[i].length; j++) {
       switch(lines[i][j]) {
-        case '{':
-          console.log("LEFT_BRACE { null");
+        case '(':
+          console.log("LEFT_PAREN ( null");
           break;
-        case '}':
-          console.log("RIGHT_BRACE } null");
+        case ')':
+          console.log("RIGHT_PAREN ) null");
           break;
+          case '{':
+            console.log("LEFT_BRACE { null");
+            break;
+          case '}':
+            console.log("RIGHT_BRACE } null");
+            break;
       }
     }
   }
