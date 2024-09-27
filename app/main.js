@@ -75,13 +75,16 @@ let hasInvalidToken = false;
             break;
     }
   }
+  
   });
+  
   console.log("EOF  null");
-  if(hasInvalidToken) {
-    process.exit(65);
-  }
+  
 } else {
   console.log("EOF  null");
+  if(hasInvalidToken) {
+    process.exit(65)
+  }
 }
 
 
