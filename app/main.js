@@ -59,6 +59,9 @@ const filename = args[1];
             case '-':
               console.log("MINUS - null");
               break;
+            case ';':
+              console.log("SEMICOLON ; null");
+              break;
       }
     }
   }
