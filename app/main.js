@@ -63,10 +63,10 @@ const filename = args[1];
               console.log("SEMICOLON ; null");
               break;
             case '$':
-              console.log("[line '${i}'] Error: Unexpected character: $");
+              console.log("[line 1] Error: Unexpected character: $");
               break;
             case '#':
-              console.log("[line '${i}'] Error: Unexpected character: #");
+              console.log("[line 1] Error: Unexpected character: #");
               break;
       }
     }
