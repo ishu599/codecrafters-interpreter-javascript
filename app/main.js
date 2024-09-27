@@ -56,6 +56,9 @@ const filename = args[1];
             case '*':
               console.log("STAR * null");
               break;
+            case '-':
+              console.log("MINUS - null");
+              break;
       }
     }
   }
