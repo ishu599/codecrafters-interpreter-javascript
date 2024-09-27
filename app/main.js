@@ -31,7 +31,7 @@ let hasInvalidToken = false;
     for(let j=0;j<lines[i].length; j++) {
       if (invalidTokens.includes(lines[i][j])) {
         hasInvalidToken = true;
-        console.error('[line ${i+1}]: Error: Unexpected character: ${lines[i][j]')
+        console.error('[line ${i+1}]: Error: Unexpected character: ${lines[i][j]}')
       }
       switch(lines[i][j]) {
         case '(':
