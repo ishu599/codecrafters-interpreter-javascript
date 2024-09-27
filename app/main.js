@@ -29,7 +29,7 @@ const filename = args[1];
   for(let i=0; i<lines.length;i++) {
     for(let j=0;j<lines[i].length; j++) {
       switch(lines[i][j]) {
-        case '{':
+        case '(':
           console.log("LEFT_PAREN ( null");
           break;
         case ')':
