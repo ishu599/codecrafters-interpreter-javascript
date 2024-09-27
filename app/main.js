@@ -40,5 +40,3 @@ else console.log("EOF  null")
 if(hasInvalidToken) {
   process.exit(65)
 }
-avatar
-codecrafters-bot
