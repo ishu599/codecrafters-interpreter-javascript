@@ -65,6 +65,9 @@ const filename = args[1];
             case '$':
               console.log("[line '${i}'] Error: Unexpected character: $");
               break;
+            case '#':
+              console.log("[line '${i}'] Error: Unexpected character: #");
+              break;
       }
     }
   }
