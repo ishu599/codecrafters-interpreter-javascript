@@ -19,7 +19,7 @@ if (fileContent.length !== 0) {
     for (let i = 0;i < line.length;i++) {
       if (invalidTokens.includes(line[i])) {
         hasInvalidToken = true
-        console.error(`[line ${index + 1}] Error: Unexpected line[i]acter: ${line[i]}`)
+        console.error(`[line ${index + 1}] Error: Unexpected character: ${line[i]}`)
       }
       if (line[i] === "(") console.log("LEFT_PAREN ( null")
       if (line[i] === ")") console.log("RIGHT_PAREN ) null")
