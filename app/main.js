@@ -36,7 +36,10 @@ if (fileContent.length !== 0) {
      if (line[i] === "=" && line[i+1] === "=") {console.log("EQUAL_EQUAL == null");
       i = i + 1;
      }
-      
+      if (line[i] === "!" && line[i+1] != "=") console.log("BANG ! null")
+        if (line[i] === "!" && line[i+1] === "=") {i = i + 1;
+          console.log("BANG_EQUAL != null");
+        }
     }
     
   })
