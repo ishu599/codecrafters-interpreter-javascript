@@ -40,6 +40,16 @@ if (fileContent.length !== 0) {
         if (line[i] === "!" && line[i+1] === "=") {i = i + 1;
           console.log("BANG_EQUAL != null");
         }
+      if (line[i] === "<") console.log("LESS < null")
+        if (line[i] === "<" && line[i+1] === "=") {
+          i = i + 1;
+          console.log("LESS_EQUAL <= null");
+        }
+        if (line[i] === ">") console.log("GREATER > null")
+          if (line[i] === ">" && line[i+1] === "=") {
+            i = i + 1;
+            console.log("GREATER_EQUAL >= null");
+          }
     }
     
   })
