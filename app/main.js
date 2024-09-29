@@ -51,7 +51,8 @@ if (fileContent.length !== 0) {
           console.log("GREATER_EQUAL >= null");
         }
         if (line[i] === ">") console.log("GREATER > null")
-          
+      if (line[i] === "/") console.log("SLASH / null")
+        if (line[i] === "/" && line[i+1] === "/") {break;}
     }
     
   })
