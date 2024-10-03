@@ -18,7 +18,7 @@ if (fileContent.length !== 0) {
   lines.forEach((line, index) => {
     for (let i = 0;i < line.length;i++) {
       if (invalidTokens.includes(line[i])) {
-        hasInvalidToken = true
+        hasInvalidToken = true;
         console.error(`[line ${index + 1}] Error: Unexpected character: ${line[i]}`)
       }
       if (line[i] === "(") console.log("LEFT_PAREN ( null")
@@ -77,7 +77,7 @@ if (fileContent.length !== 0) {
   })
   console.log("EOF  null")
 }
-else console.log("EOF  null")
+else console.log("EOF  null");
 if(hasInvalidToken) {
   process.exit(65)
 }
