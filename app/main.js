@@ -1,4 +1,5 @@
 import fs from "fs";
+import { preProcessFile } from "typescript";
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
   console.error("Usage: ./your_program.sh tokenize <filename>");
@@ -57,26 +58,29 @@ if (fileContent.length !== 0) {
       if (line[i] === " ") continue;
       if (line[i] === "  ") continue;
       if (line[i] === '"') {
-        let nextStringLiteral = line.indexOf('"', i+1);
-        if(nextStringLiteral == -1){
-          error += `[line ${index+1}] Error: Unterminated string.`;
+        let string = '';
+        let matchingcode = false;
+        i++;
+        while(line[i] != '"' && i<line.length) {
+          string += line[i];
+          i++
+        }
+        if(line[i] != '"') {
+          console.error(`[line ${index+1}] error: Unterminated string.`)
           hasInvalidToken = true;
           break;
         }
-        else{
-          let stringIn = line.slice(i+1, nextStringLiteral);
-          console.log(`STRING "${stringIn}" ${stringIn}\n`);
-          j = nextStringLiteral;
-          continue;
-        }
+        console.log(`STRING "${string}" ${string}`);
+        break;
       }
     }
     
   })
+  
+  console.log("EOF  null")
   if (hasInvalidToken) {
     process.exit(65);
   }
-  console.log("EOF  null")
 }
 else console.log("EOF  null");
 if(hasInvalidToken) {
