@@ -24,39 +24,39 @@ if (fileContent.length !== 0) {
         hasInvalidToken = true;
         error += `[line ${index + 1}] Error: Unexpected character: ${line[i]}`;
       }
-      if (line[i] === "(") token += "LEFT_PAREN ( null";
-      if (line[i] === ")") token += "RIGHT_PAREN ) null";
-      if (line[i] === "{") token += "LEFT_BRACE { null";
-      if (line[i] === "}") token += "RIGHT_BRACE } null";
-      if (line[i] === ",") token += "COMMA , null";
-      if (line[i] === ".") token += "DOT . null";
-      if (line[i] === "-") token += "MINUS - null";
-      if (line[i] === "+") token += "PLUS + null";
-      if (line[i] === ";") token += "SEMICOLON ; null";
-      if (line[i] === "*") token += "STAR * null";
-      //if (line[i] === "/") console.log("SLASH / null")
-      if (line[i] === "=" && line[i+1] != "=") token += "EQUAL = null";
-     if (line[i] === "=" && line[i+1] === "=") {token += "EQUAL_EQUAL == null";
+      if (line[i] === "(") token += "LEFT_PAREN ( null\n";
+      if (line[i] === ")") token += "RIGHT_PAREN ) null\n";
+      if (line[i] === "{") token += "LEFT_BRACE { null\n";
+      if (line[i] === "}") token += "RIGHT_BRACE } null\n";
+      if (line[i] === ",") token += "COMMA , null\n";
+      if (line[i] === ".") token += "DOT . null\n";
+      if (line[i] === "-") token += "MINUS - null\n";
+      if (line[i] === "+") token += "PLUS + null\n";
+      if (line[i] === ";") token += "SEMICOLON ; null\n";
+      if (line[i] === "*") token += "STAR * null\n";
+      //if (line[i] === "/") console.log("SLASH / null\n")
+      if (line[i] === "=" && line[i+1] != "=") token += "EQUAL = null\n";
+     if (line[i] === "=" && line[i+1] === "=") {token += "EQUAL_EQUAL == null\n";
       i = i + 1;
      }
-      if (line[i] === "!" && line[i+1] != "=") token += "BANG ! null";
+      if (line[i] === "!" && line[i+1] != "=") token += "BANG ! null\n";
         if (line[i] === "!" && line[i+1] === "=") {i = i + 1;
-          token += "BANG_EQUAL != null";
+          token += "BANG_EQUAL != null\n";
         }
         if (line[i] === "<" && line[i+1] === "=") {
           i = i + 1;
-          token += "LESS_EQUAL <= null";
+          token += "LESS_EQUAL <= null\n";
         }
-      if (line[i] === "<") token += "LESS < null";
+      if (line[i] === "<") token += "LESS < null\n";
        
         if (line[i] === ">" && line[i+1] === "=") {
           i = i + 1;
-          token += "GREATER_EQUAL >= null";
+          token += "GREATER_EQUAL >= null\n";
         }
-        if (line[i] === ">") token += "GREATER > null";
+        if (line[i] === ">") token += "GREATER > null\n";
           
           if (line[i] === "/" && line[i+1] === "/") {break;}
-      if (line[i] === "/") token += "SLASH / null";
+      if (line[i] === "/") token += "SLASH / null\n";
       if (line[i] === " ") continue;
       if (line[i] === "  ") continue;
       if (line[i] === '"') {
@@ -82,14 +82,14 @@ if (fileContent.length !== 0) {
   if (hasInvalidToken) {
     process.exit(65);
   }
-  token += "EOF  null";
+  token += "EOF  null\n";
   if (error !== "") {
     error += '\n';
   }
   if(error !== ""){
     console.error(error);}
 }
-else token += "EOF  null";
+else token += "EOF  null\n";
 console.log(token)
 if(error !== ""){
   process.exit(65);
