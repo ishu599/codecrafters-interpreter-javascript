@@ -60,12 +60,12 @@ if (fileContent.length !== 0) {
         let num = 0;
         let count = 1;
         let k = j
-        while (Number(str[k])) {
+        while (Number(str[j])) {
           num += str[k] * count;
           count *= 10;
           k++;
         }
-        if (Number.isInteger(num)) {
+        if (typeof num === Number) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
