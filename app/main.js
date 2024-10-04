@@ -63,7 +63,7 @@ if (fileContent.length !== 0) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`;
         hasunexpectedcharacter = true;
       }
-      else if (typeof str[j] === Number) {
+      else if (Number(str[j])) {
         j += 1;
         let k = j;
         let count = "";
