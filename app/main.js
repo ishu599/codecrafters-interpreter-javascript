@@ -130,7 +130,7 @@ if (fileContent.length !== 0) {
       let numer_array = str.split(" ");
       
       for (const num of numer_array) {
-        if (num % 10 === 0) {
+        if (Number(num) % 10 === 0) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
