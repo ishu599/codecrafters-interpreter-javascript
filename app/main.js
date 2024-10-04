@@ -1,4 +1,5 @@
 import fs from "fs";
+import { type } from "os";
 
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
@@ -56,16 +57,15 @@ if (fileContent.length !== 0) {
       else if(str[j]==";"){
         token+="SEMICOLON ; null\n";
       }
-      else if (Number(str[j])) {
-        let num = 0;
-        let count = 1;
-        let k = j
-        while (Number(str[j])) {
-          num += str[k] * count;
-          count *= 10;
-          k++;
-        }
-        if (typeof num === Number) {
+      else if (typeof str[j] === Number) {
+        j += 1;
+        let k = j;
+        let count = 0;
+        while (typeof str[k] === Number || typeof str[k] === float || str[k] === '.') {
+          count += str[k];
+          
+      }
+        if (count % 1 === 0) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
