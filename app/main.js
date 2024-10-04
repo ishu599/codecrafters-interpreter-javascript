@@ -69,8 +69,9 @@ if (fileContent.length !== 0) {
         let count = 0;
         while (typeof str[k] === Number || typeof str[k] === float || str[k] === '.') {
           count += str[k];
-          count = parseFloat(count);
+          
       }
+      count = parseFloat(count);
         if (count % 1 === 0) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
