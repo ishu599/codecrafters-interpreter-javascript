@@ -65,7 +65,7 @@ if (fileContent.length !== 0) {
         }
         else{
           let stringIn = line.slice(i+1, nextStringLiteral);
-          token += `STRING "${stringIn}" ${stringIn}\n`;
+          console.log(`STRING "${stringIn}" ${stringIn}\n`);
           j = nextStringLiteral;
           continue;
         }
