@@ -1,5 +1,4 @@
 import fs from "fs";
-
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
   console.error("Usage: ./your_program.sh tokenize <filename>");
@@ -10,87 +9,123 @@ if (command !== "tokenize") {
   console.error(`Usage: Unknown command: ${command}`);
   process.exit(1);
 }
+// // You can use print statements as follows for debugging, they'll be visible when running tests.
+// console.error("Logs from your program will appear here!");
 const filename = args[1];
+// Uncomment this block to pass the first stage
 const fileContent = fs.readFileSync(filename, "utf8");
-const invalidTokens = ["$", "#", "@", "%"];
-let hasInvalidToken = false;
-let error = "";
 let token = "";
+let error = "";
 if (fileContent.length !== 0) {
-  const lines = fileContent.split("\n")
-  lines.forEach((line, index) => {
-    for (let i = 0;i < line.length;i++) {
-      if (invalidTokens.includes(line[i])) {
-        hasInvalidToken = true;
-        error += `[line ${index + 1}] Error: Unexpected character: ${line[i]}`;
+  // throw new Error("Scanner not implemented");
+  const fileLines = fileContent.split("\n");
+  for(let i=0;i<fileLines.length;i++){
+    const str = fileLines[i];
+    for(let j=0;j<str.length;j++){
+      if(str[j]==" " || str[j]=="\t"){
+        continue;
       }
-      if (line[i] === "(") token += "LEFT_PAREN ( null\n";
-      if (line[i] === ")") token += "RIGHT_PAREN ) null\n";
-      if (line[i] === "{") token += "LEFT_BRACE { null\n";
-      if (line[i] === "}") token += "RIGHT_BRACE } null\n";
-      if (line[i] === ",") token += "COMMA , null\n";
-      if (line[i] === ".") token += "DOT . null\n";
-      if (line[i] === "-") token += "MINUS - null\n";
-      if (line[i] === "+") token += "PLUS + null\n";
-      if (line[i] === ";") token += "SEMICOLON ; null\n";
-      if (line[i] === "*") token += "STAR * null\n";
-      //if (line[i] === "/") console.log("SLASH / null\n")
-      if (line[i] === "=" && line[i+1] != "=") token += "EQUAL = null\n";
-     if (line[i] === "=" && line[i+1] === "=") {token += "EQUAL_EQUAL == null\n";
-      i = i + 1;
-     }
-      if (line[i] === "!" && line[i+1] != "=") token += "BANG ! null\n";
-        if (line[i] === "!" && line[i+1] === "=") {i = i + 1;
-          token += "BANG_EQUAL != null\n";
-        }
-        if (line[i] === "<" && line[i+1] === "=") {
-          i = i + 1;
-          token += "LESS_EQUAL <= null\n";
-        }
-      if (line[i] === "<") token += "LESS < null\n";
-       
-        if (line[i] === ">" && line[i+1] === "=") {
-          i = i + 1;
-          token += "GREATER_EQUAL >= null\n";
-        }
-        if (line[i] === ">") token += "GREATER > null\n";
-          
-          if (line[i] === "/" && line[i+1] === "/") {break;}
-      if (line[i] === "/") token += "SLASH / null\n";
-      if (line[i] === " ") continue;
-      if (line[i] === "  ") continue;
-      if (line[i] === '"') {
-        
-        let nextStringLiteral = line.indexOf('"', i+1);
-        if(nextStringLiteral === '-1') {
-          error += `[line ${index+1}] error: Unterminated string.`;
-          hasInvalidToken = true;
+      else if(str[j]=="("){
+        token+="LEFT_PAREN ( null\n";
+      }
+      else if(str[j]==")"){
+        token+="RIGHT_PAREN ) null\n";
+      }
+      else if(str[j]=="{"){
+        token+="LEFT_BRACE { null\n";
+      }
+      else if(str[j]=="}"){
+        token+="RIGHT_BRACE } null\n";
+      }
+      else if(str[j]==","){
+        token+="COMMA , null\n";
+      }
+      else if(str[j]=="."){
+        token+="DOT . null\n";
+      }
+      else if(str[j]=="*"){
+        token+="STAR * null\n";
+      }
+      else if(str[j]=="+"){
+        token+="PLUS + null\n";
+      }
+      else if(str[j]=="-"){
+        token+="MINUS - null\n";
+      }
+      else if(str[j]==";"){
+        token+="SEMICOLON ; null\n";
+      }
+      else if(str[j]=='"'){
+        let nextStringLiteral = str.indexOf('"', j+1);
+        if(nextStringLiteral == -1){
+          error += `[line ${i+1}] Error: Unterminated string.`
           break;
         }
-        else {
-          let stringIn = line.slice(i+1, nextStringLiteral);
-          
-        
-        token += `STRING "${stringIn}" ${stringIn}\n`;
-        i = nextStringLiteral;
-        continue;
+        else{
+          let stringIn = str.slice(j+1, nextStringLiteral);
+          token += `STRING "${stringIn}" ${stringIn}\n`;
+          j = nextStringLiteral;
+          continue;
+        }
+      }
+      else if(str[j]=="/"){
+        if(j+1<str.length && str[j+1]=="/"){
+          break;
+        }
+        else{
+          token+="SLASH / null\n";
+        }
+      }
+      else if(str[j]=="<"){
+        if(j+1<str.length && str[j+1]=="="){
+          j+=1;
+          token+="LESS_EQUAL <= null\n";
+        }
+        else{
+          token+="LESS < null\n";
+        }
+      }
+      else if(str[j]==">"){
+        if(j+1<str.length && str[j+1]=="="){
+          j+=1;
+          token+="GREATER_EQUAL >= null\n";
+        }
+        else{
+          token+="GREATER > null\n";
+        }
+      }
+      else if(str[j]=="!"){
+        if(j+1<str.length && str[j+1]=="="){
+          j+=1;
+          token+="BANG_EQUAL != null\n";
+        }
+        else{
+          token+="BANG ! null\n";
+        }
+      }
+      else if(str[j]=="="){
+        if(j+1<str.length && str[j+1]=="="){
+          j+=1;
+          token+="EQUAL_EQUAL == null\n";
+        }
+        else{
+          token+="EQUAL = null\n";
+        }
+      }
+      else{
+        if(error!==""){
+          error+="\n";
+        }
+        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`
       }
     }
   }
-    
-  })
-  if (hasInvalidToken) {
-    process.exit(65);
-  }
-  token += "EOF  null\n";
-  if (error !== "") {
-    error += '\n';
-  }
-  if(error !== ""){
-    console.error(error);}
 }
-else token += "EOF  null\n";
-console.log(token)
+token+="EOF  null"
+if(error !== ""){
+  console.error(error);
+}
+console.log(token);
 if(error !== ""){
   process.exit(65);
 }
