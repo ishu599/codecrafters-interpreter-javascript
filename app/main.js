@@ -72,12 +72,12 @@ if (fileContent.length !== 0) {
           count = parseFloat(count);
           k++;
       }
-      count = parseFloat(count);
+      let sum = parseFloat(count);
         if (count % 10 === 0) {
-          token += `NUMBER ${count} ${count}.0\n`;
+          token += `NUMBER ${sum} ${sum}.0\n`;
         }
         else {
-          token += `NUMBER ${count} ${count}\n`;
+          token += `NUMBER ${sum} ${sum}\n`;
         }
       }
       else if(str[j]=='"'){
