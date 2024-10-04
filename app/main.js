@@ -57,14 +57,14 @@ if (fileContent.length !== 0) {
       if (line[i] === " ") continue;
       if (line[i] === "  ") continue;
       if (line[i] === '"') {
-        let nextStringLiteral = str.indexOf('"', j+1);
+        let nextStringLiteral = line.indexOf('"', j+1);
         if(nextStringLiteral == -1){
           error += `[line ${i+1}] Error: Unterminated string.`;
           hasInvalidToken = true;
           break;
         }
         else{
-          let stringIn = str.slice(j+1, nextStringLiteral);
+          let stringIn = line.slice(j+1, nextStringLiteral);
           token += `STRING "${stringIn}" ${stringIn}\n`;
           j = nextStringLiteral;
           continue;
