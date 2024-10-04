@@ -59,23 +59,23 @@ if (fileContent.length !== 0) {
       if (line[i] === " ") continue;
       if (line[i] === "  ") continue;
       if (line[i] === '"') {
-        let string = '';
         
-        i++;
-        while(line[i] != '"' && i<line.length) {
-          string += line[i];
-          i++
-        }
         let nextStringLiteral = line.indexOf('"', i+1);
         if(nextStringLiteral === '-1') {
           error += `[line ${index+1}] error: Unterminated string.`;
           hasInvalidToken = true;
           break;
         }
-        console.log(`STRING "${string}" ${string}`);
-        break;
+        else {
+          let stringIn = line.slice(i+1, nextStringLiteral);
+          
+        
+        console.log(`STRING "${stringIn}" ${stringIn}`);
+        i = nextStringLiteral;
+        continue;
       }
     }
+  }
     
   })
   if (hasInvalidToken) {
