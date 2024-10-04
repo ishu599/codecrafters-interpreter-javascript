@@ -13,7 +13,7 @@ const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false;
-if (fileContent.length !== 0) {
+if (fileContent.length !== 0) {sdfdsfdsf
   const lines = fileContent.split("\n")
   lines.forEach((line, index) => {
     for (let i = 0;i < line.length;i++) {
