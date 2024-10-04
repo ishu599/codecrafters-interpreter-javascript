@@ -78,7 +78,8 @@ if (fileContent.length !== 0) {
   
   console.log("EOF  null")
 }
+else console.log("EOF  null");
 if(hasInvalidToken) {
   process.exit(65)
 }
-else console.log("EOF  null");
+console.log(hasInvalidToken);
