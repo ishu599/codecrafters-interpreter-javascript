@@ -134,7 +134,7 @@ if (fileContent.length !== 0) {
           token += `NUMBER ${num} ${num}\n`;
         }
         else {
-          token += `NUBER ${num} ${num}.0\n`;
+          token += `NUMBER ${num} ${num}.0\n`;
         }
       }
     }
