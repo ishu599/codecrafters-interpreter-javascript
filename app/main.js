@@ -131,10 +131,10 @@ if (fileContent.length !== 0) {
       
       for (const num of numer_array) {
         if (num % 10 === 0) {
-          token += `NUMBER ${num} ${num}\n`;
+          token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
-          token += `NUMBER ${num} ${num}.0\n`;
+          token += `NUMBER ${num} ${num}\n`;
         }
       }
     }
