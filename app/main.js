@@ -128,9 +128,9 @@ if (fileContent.length !== 0) {
         
       }
       let numer_array = str.split(" ");
-      let float_Array = parseFloat(numer_array);
+      let float_Array = Number(numer_array);
       for (const num of float_Array) {
-        num = convert_to_float(num);
+        
         if (num % 10 === 0) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
