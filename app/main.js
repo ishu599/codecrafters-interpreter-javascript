@@ -63,23 +63,7 @@ if (fileContent.length !== 0) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`;
         hasunexpectedcharacter = true;
       }
-      else if (Number(str[j])) {
-        j += 1;
-        let k = j;
-        let count = "";
-        while (Number(str[k]) || str[k] === '.') {
-          count += str[k];
-          count = parseFloat(count);
-          k++;
-      }
-      let sum = parseFloat(count);
-        if (count % 10 === 0) {
-          token += `NUMBER ${sum} ${sum}.0\n`;
-        }
-        else {
-          token += `NUMBER ${sum} ${sum}\n`;
-        }
-      }
+      
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
         if(nextStringLiteral == -1){
@@ -142,6 +126,16 @@ if (fileContent.length !== 0) {
           error+="\n";
         }
         
+      }
+      let numer_array = str.split(" ");
+      var float_literal = parseFloat(numer_array);
+      for (const num of float_literal) {
+        if (num % 10 === 0) {
+          token += `NUMBER ${num} ${num}\n`;
+        }
+        else {
+          token += `NUBER ${num} ${num}.0\n`;
+        }
       }
     }
   }
