@@ -66,10 +66,10 @@ if (fileContent.length !== 0) {
           k++;
         }
         if (Number.isInteger(num)) {
-          token += `Number ${num} ${num}.0\n`;
+          token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
-          token += `Number ${num} ${num}\n`;
+          token += `NUMBER ${num} ${num}\n`;
         }
       }
       else if(str[j]=='"'){
