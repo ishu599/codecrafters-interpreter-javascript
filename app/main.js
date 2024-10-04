@@ -1,5 +1,5 @@
 import fs from "fs";
-import { isNumericLiteral } from "typescript";
+
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
   console.error("Usage: ./your_program.sh tokenize <filename>");
