@@ -65,7 +65,8 @@ if (fileContent.length !== 0) {
           string += line[i];
           i++
         }
-        if(line[i] != '"') {
+        let nextStringLiteral = str.indexOf('"', i+1);
+        if(nextStringLiteral === '-1') {
           console.error(`[line ${index+1}] error: Unterminated string.`)
           hasInvalidToken = true;
           break;
