@@ -66,8 +66,8 @@ if (fileContent.length !== 0) {
       else if (typeof str[j] === Number) {
         j += 1;
         let k = j;
-        let count = 0;
-        while (typeof str[k] === Number || typeof str[k] === float || str[k] === '.') {
+        let count = "";
+        while (typeof str[k] === Number || str[k] === '.') {
           count += str[k];
           count = parseFloat(count);
           k++;
