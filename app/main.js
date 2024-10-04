@@ -15,6 +15,7 @@ const fileContent = fs.readFileSync(filename, "utf8");
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false;
 let error = "";
+let token = "";
 if (fileContent.length !== 0) {
   const lines = fileContent.split("\n")
   lines.forEach((line, index) => {
@@ -23,39 +24,39 @@ if (fileContent.length !== 0) {
         hasInvalidToken = true;
         error += `[line ${index + 1}] Error: Unexpected character: ${line[i]}`;
       }
-      if (line[i] === "(") console.log("LEFT_PAREN ( null")
-      if (line[i] === ")") console.log("RIGHT_PAREN ) null")
-      if (line[i] === "{") console.log("LEFT_BRACE { null")
-      if (line[i] === "}") console.log("RIGHT_BRACE } null")
-      if (line[i] === ",") console.log("COMMA , null")
-      if (line[i] === ".") console.log("DOT . null")
-      if (line[i] === "-") console.log("MINUS - null")
-      if (line[i] === "+") console.log("PLUS + null")
-      if (line[i] === ";") console.log("SEMICOLON ; null")
-      if (line[i] === "*") console.log("STAR * null")
+      if (line[i] === "(") token += "LEFT_PAREN ( null";
+      if (line[i] === ")") token += "RIGHT_PAREN ) null";
+      if (line[i] === "{") token += "LEFT_BRACE { null";
+      if (line[i] === "}") token += "RIGHT_BRACE } null";
+      if (line[i] === ",") token += "COMMA , null";
+      if (line[i] === ".") token += "DOT . null";
+      if (line[i] === "-") token += "MINUS - null";
+      if (line[i] === "+") token += "PLUS + null";
+      if (line[i] === ";") token += "SEMICOLON ; null";
+      if (line[i] === "*") token += "STAR * null";
       //if (line[i] === "/") console.log("SLASH / null")
-      if (line[i] === "=" && line[i+1] != "=") console.log("EQUAL = null")
-     if (line[i] === "=" && line[i+1] === "=") {console.log("EQUAL_EQUAL == null");
+      if (line[i] === "=" && line[i+1] != "=") token += "EQUAL = null";
+     if (line[i] === "=" && line[i+1] === "=") {token += "EQUAL_EQUAL == null";
       i = i + 1;
      }
-      if (line[i] === "!" && line[i+1] != "=") console.log("BANG ! null")
+      if (line[i] === "!" && line[i+1] != "=") token += "BANG ! null";
         if (line[i] === "!" && line[i+1] === "=") {i = i + 1;
-          console.log("BANG_EQUAL != null");
+          token += "BANG_EQUAL != null";
         }
         if (line[i] === "<" && line[i+1] === "=") {
           i = i + 1;
-          console.log("LESS_EQUAL <= null");
+          token += "LESS_EQUAL <= null";
         }
-      if (line[i] === "<") console.log("LESS < null")
+      if (line[i] === "<") token += "LESS < null";
        
         if (line[i] === ">" && line[i+1] === "=") {
           i = i + 1;
-          console.log("GREATER_EQUAL >= null");
+          token += "GREATER_EQUAL >= null";
         }
-        if (line[i] === ">") console.log("GREATER > null")
+        if (line[i] === ">") token += "GREATER > null";
           
           if (line[i] === "/" && line[i+1] === "/") {break;}
-      if (line[i] === "/") console.log("SLASH / null")
+      if (line[i] === "/") token += "SLASH / null";
       if (line[i] === " ") continue;
       if (line[i] === "  ") continue;
       if (line[i] === '"') {
@@ -70,7 +71,7 @@ if (fileContent.length !== 0) {
           let stringIn = line.slice(i+1, nextStringLiteral);
           
         
-        console.log(`STRING "${stringIn}" ${stringIn}`);
+        token += `STRING "${stringIn}" ${stringIn}`;
         i = nextStringLiteral;
         continue;
       }
@@ -81,11 +82,15 @@ if (fileContent.length !== 0) {
   if (hasInvalidToken) {
     process.exit(65);
   }
-  console.log("EOF  null")
+  token += "EOF  null";
+  if (error !== "") {
+    error += '\n';
+  }
   if(error !== ""){
     console.error(error);}
 }
-else console.log("EOF  null");
+else token += "EOF  null";
+console.log(token);
 if(error !== ""){
   process.exit(65);
 }
