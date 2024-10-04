@@ -82,7 +82,7 @@ if (fileContent.length !== 0) {
   if (hasInvalidToken) {
     process.exit(65);
   }
-  
+  token += "EOF  null";
   if (error !== "") {
     error += '\n';
   }
@@ -90,7 +90,7 @@ if (fileContent.length !== 0) {
     console.error(error);}
 }
 else token += "EOF  null";
-console.log(token);
+console.log(token)
 if(error !== ""){
   process.exit(65);
 }
