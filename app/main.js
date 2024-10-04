@@ -130,8 +130,8 @@ if (fileContent.length !== 0) {
       let numer_array = str.split(" ");
       let float_Array = parseFloat(numer_array);
       for (const num of float_Array) {
-        
-        if (Number(num) % 10 === 0) {
+        num = convert_to_float(num);
+        if (num % 10 === 0) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
@@ -148,4 +148,14 @@ if(error !== ""){
 console.log(token);
 if(error !== ""){
   process.exit(65);
+}
+
+function convert_to_float(a) {
+
+  // Type conversion
+  // of string to float
+  let floatValue = +a;
+
+  // Return float value
+  return floatValue;
 }
