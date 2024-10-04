@@ -1,4 +1,5 @@
 import fs from "fs";
+import { isNumericLiteral } from "typescript";
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
   console.error("Usage: ./your_program.sh tokenize <filename>");
@@ -54,6 +55,20 @@ if (fileContent.length !== 0) {
       }
       else if(str[j]==";"){
         token+="SEMICOLON ; null\n";
+      }
+      else if (Number(str[j])) {
+        let num = 0;
+        let count = 1;
+        while (Number(str[j])) {
+          num += str[j] * count;
+          count *= 10;
+        }
+        if (Number.isInteger(num)) {
+          token += `Number ${num} ${num}.0\n`;
+        }
+        else {
+          token += `Number ${num} ${num}\n`;
+        }
       }
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
