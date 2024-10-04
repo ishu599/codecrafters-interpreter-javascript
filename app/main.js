@@ -72,7 +72,7 @@ if (fileContent.length !== 0) {
           
       }
       count = parseFloat(count);
-        if (count % 1 === 0) {
+        if (count % 10 === 0) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
