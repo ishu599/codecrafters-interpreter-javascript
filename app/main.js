@@ -70,6 +70,7 @@ if (fileContent.length !== 0) {
         while (typeof str[k] === Number || typeof str[k] === float || str[k] === '.') {
           count += str[k];
           count = parseFloat(count);
+          k++;
       }
       count = parseFloat(count);
         if (count % 10 === 0) {
