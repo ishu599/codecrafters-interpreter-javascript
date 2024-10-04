@@ -14,13 +14,14 @@ const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false;
+let error = "";
 if (fileContent.length !== 0) {
   const lines = fileContent.split("\n")
   lines.forEach((line, index) => {
     for (let i = 0;i < line.length;i++) {
       if (invalidTokens.includes(line[i])) {
         hasInvalidToken = true;
-        console.error(`[line ${index + 1}] Error: Unexpected character: ${line[i]}`)
+        error += `[line ${index + 1}] Error: Unexpected character: ${line[i]}`;
       }
       if (line[i] === "(") console.log("LEFT_PAREN ( null")
       if (line[i] === ")") console.log("RIGHT_PAREN ) null")
@@ -59,7 +60,7 @@ if (fileContent.length !== 0) {
       if (line[i] === "  ") continue;
       if (line[i] === '"') {
         let string = '';
-        let matchingcode = false;
+        
         i++;
         while(line[i] != '"' && i<line.length) {
           string += line[i];
@@ -67,7 +68,7 @@ if (fileContent.length !== 0) {
         }
         let nextStringLiteral = line.indexOf('"', i+1);
         if(nextStringLiteral === '-1') {
-          console.error(`[line ${index+1}] error: Unterminated string.`)
+          error += `[line ${index+1}] error: Unterminated string.`;
           hasInvalidToken = true;
           break;
         }
@@ -81,9 +82,10 @@ if (fileContent.length !== 0) {
     process.exit(65);
   }
   console.log("EOF  null")
-  
+  if(error !== ""){
+    console.error(error);}
 }
 else console.log("EOF  null");
-if(hasInvalidToken) {
-  process.exit(65)
+if(error !== ""){
+  process.exit(65);
 }
