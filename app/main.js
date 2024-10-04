@@ -74,10 +74,10 @@ if (fileContent.length !== 0) {
       }
       count = parseFloat(count);
         if (count % 10 === 0) {
-          token += `NUMBER ${num} ${num}.0\n`;
+          token += `NUMBER ${count} ${count}.0\n`;
         }
         else {
-          token += `NUMBER ${num} ${num}\n`;
+          token += `NUMBER ${count} ${count}\n`;
         }
       }
       else if(str[j]=='"'){
