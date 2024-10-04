@@ -59,9 +59,11 @@ if (fileContent.length !== 0) {
       else if (Number(str[j])) {
         let num = 0;
         let count = 1;
-        while (Number(str[j])) {
-          num += str[j] * count;
+        let k = j
+        while (Number(str[k])) {
+          num += str[k] * count;
           count *= 10;
+          k++;
         }
         if (Number.isInteger(num)) {
           token += `Number ${num} ${num}.0\n`;
