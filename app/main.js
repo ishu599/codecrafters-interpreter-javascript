@@ -18,6 +18,8 @@ const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 let token = "";
 let error = "";
+const unexpected_characters = ["@","&","#", "%"];
+let hasunexpectedcharacter = false;
 if (fileContent.length !== 0) {
   // throw new Error("Scanner not implemented");
   const fileLines = fileContent.split("\n");
@@ -56,6 +58,10 @@ if (fileContent.length !== 0) {
       }
       else if(str[j]==";"){
         token+="SEMICOLON ; null\n";
+      }
+      else if (str[j].includes(unexpected_characters)) {
+        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`;
+        hasunexpectedcharacter = true;
       }
       else if (typeof str[j] === Number) {
         j += 1;
@@ -133,7 +139,7 @@ if (fileContent.length !== 0) {
         if(error!==""){
           error+="\n";
         }
-        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`
+        
       }
     }
   }
