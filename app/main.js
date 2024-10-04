@@ -71,7 +71,7 @@ if (fileContent.length !== 0) {
           let stringIn = line.slice(i+1, nextStringLiteral);
           
         
-        token += `STRING "${stringIn}" ${stringIn}`;
+        token += `STRING "${stringIn}" ${stringIn}\n`;
         i = nextStringLiteral;
         continue;
       }
