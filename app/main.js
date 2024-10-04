@@ -13,7 +13,7 @@ const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 const invalidTokens = ["$", "#", "@", "%"];
 let hasInvalidToken = false;
-if (fileContent.length !== 0) {sdfdsfdsf
+if (fileContent.length !== 0) {
   const lines = fileContent.split("\n")
   lines.forEach((line, index) => {
     for (let i = 0;i < line.length;i++) {
@@ -57,20 +57,18 @@ if (fileContent.length !== 0) {sdfdsfdsf
       if (line[i] === " ") continue;
       if (line[i] === "  ") continue;
       if (line[i] === '"') {
-        let string = '';
-        let matchingcode = false;
-        i++;
-        while(line[i] != '"' && i<line.length) {
-          string += line[i];
-          i++
-        }
-        if(line[i] != '"') {
-          console.error(`[line ${index+1}] error: Unterminated string.`)
+        let nextStringLiteral = str.indexOf('"', j+1);
+        if(nextStringLiteral == -1){
+          error += `[line ${i+1}] Error: Unterminated string.`;
           hasInvalidToken = true;
           break;
         }
-        console.log(`STRING "${string}" ${string}`);
-        break;
+        else{
+          let stringIn = str.slice(j+1, nextStringLiteral);
+          token += `STRING "${stringIn}" ${stringIn}\n`;
+          j = nextStringLiteral;
+          continue;
+        }
       }
     }
     
