@@ -148,17 +148,7 @@ if (fileContent.length !== 0) {
           error+="\n";
         }
         
-      }
-      let numer_array = str.split(" ");
       
-      for (const num of numer_array) {
-        
-        if (num % 1 === 0) {
-          token += `NUMBER ${num} ${num}.0\n`;
-        }
-        else {
-          token += `NUMBER ${num} ${num}\n`;
-        }
       }
     }
   }
