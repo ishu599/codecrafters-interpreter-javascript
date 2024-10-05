@@ -1,5 +1,6 @@
-import fs from "fs";
+import fs, { link } from "fs";
 import { type } from "os";
+import { isFloat64Array } from "util/types";
 
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
@@ -63,7 +64,28 @@ if (fileContent.length !== 0) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`;
         hasunexpectedcharacter = true;
       }
-      
+      else if (str[j] >= '0' && str[j] <= '9') {
+        const startDigit = j;
+        while (j < str.length && str[j] >= '0' && str[j] <= '9') {
+          j++;
+        }
+        if (str[j] === "." && j + 1 < str.length && str[j + 1] >= '0' && str[j + 1] <= '9') {
+          j++;
+          while ( j < str.length && str[j] >= '0' && str[j] <= '9') {
+            j++;
+          }
+        }
+        const numberString = str.slice(startDigit,j);
+        j--;
+        let num = parseFloat(numberString);
+        if (Number.isInteger(num)) {
+          let formattedNum = num.toFixed(1);
+          token += `NUMBER ${numberString} ${formattedNum}\n`;
+        }
+        else {
+          token += `NUMBER ${numberString} ${numberString}\n`;
+        }
+      }
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
         if(nextStringLiteral == -1){
@@ -128,12 +150,10 @@ if (fileContent.length !== 0) {
         
       }
       let numer_array = str.split(" ");
-      for (let x = 0;x < numer_array.length;x++) {
-        numer_array[x] = parseFloat(numer_array[x]);
-      }
+      
       for (const num of numer_array) {
         
-        if (num % 10 === 0) {
+        if (num % 1 === 0) {
           token += `NUMBER ${num} ${num}.0\n`;
         }
         else {
@@ -152,12 +172,3 @@ if(error !== ""){
   process.exit(65);
 }
 
-function convert_to_float(a) {
-
-  // Type conversion
-  // of string to float
-  let floatValue = +a;
-
-  // Return float value
-  return floatValue;
-}
