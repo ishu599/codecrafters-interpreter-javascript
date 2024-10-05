@@ -153,6 +153,9 @@ if (fileContent.length !== 0) {
     }
   }
 }
+if(error !== ""){
+  process.exit(65);
+}
 token+="EOF  null"
 if(error !== ""){
   console.error(error);
