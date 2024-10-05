@@ -128,7 +128,7 @@ if (fileContent.length !== 0) {
         
       }
       let numer_array = str.split(" ");
-      for (let x = 0;x < numer_array.length();x++) {
+      for (let x = 0;x < numer_array.length;x++) {
         numer_array[x] = parseFloat(numer_array[x]);
       }
       for (const num of numer_array) {
