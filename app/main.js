@@ -68,7 +68,7 @@ if (fileContent.length !== 0) {
       // identify if the line contains any identiier word
       else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
         let string_identifier = "";
-        while (str[j] != "") {string_identifier += str[j];
+        while (str[j] != " ") {string_identifier += str[j];
           j++;
         }
         // find length of string to check the last character of string for _
