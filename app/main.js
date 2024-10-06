@@ -76,6 +76,7 @@ if (fileContent.length !== 0) {
         if (string_identifier[0] === "_" || string_identifier[length_string-1] === "_" || string_identifier === "foo" || string_identifier === "bar" || string_identifier === "baz") {
           token += `IDENTIFIER ${string_identifier} null\n`;
         }
+        break;
       }
       else if (str[j] >= '0' && str[j] <= '9') {
         const startDigit = j;
