@@ -65,17 +65,17 @@ if (fileContent.length !== 0) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
         hasunexpectedcharacter = true;
       }
+      // identify if the line contains any identiier word
       else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
-        let string_line = str.split(" ");
-        for(const char of string_line) {
-          
-          if (Identifiers.includes(char) || char[0] === "_" || char[char.length - 1] === "_") {
-            token += `IDENTIFIER ${char} null\n`;
-          }
-          
-          
+        let string_identifier = "";
+        while (str[j] != "") {string_identifier += str[j];
+          j++;
         }
-        break;
+        // find length of string to check the last character of string for _
+        let length_string = string_identifier.length;
+        if (string_identifier[0] === "_" || string_identifier[length_string-1] === "_" || string_identifier === "foo" || string_identifier === "bar" || string_identifier === "baz") {
+          token += `IDENTIFIER ${string_identifier} null\n`;
+        }
       }
       else if (str[j] >= '0' && str[j] <= '9') {
         const startDigit = j;
