@@ -67,10 +67,11 @@ if (fileContent.length !== 0) {
       }
       else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
         let string_line = str.split(" ");
-        for( const char of string_line) {
+        for(const char of string_line) {
           if (Identifiers.includes(char)) {
             token += `IDENTIFIER ${char} null\n`;
           }
+          break;
         }
       }
       else if (str[j] >= '0' && str[j] <= '9') {
