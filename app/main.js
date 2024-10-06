@@ -19,7 +19,7 @@ const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 let token = "";
 let error = "";
-const unexpected_characters = ["@","&","#", "%"];
+const unexpected_characters = ["@","&","#", "%","$"];
 let hasunexpectedcharacter = false;
 if (fileContent.length !== 0) {
   // throw new Error("Scanner not implemented");
