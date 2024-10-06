@@ -143,6 +143,9 @@ if (fileContent.length !== 0) {
           token+="EQUAL = null\n";
         }
       }
+      else if (str[j] === " " || str[j] === "\t") {
+        continue;
+      }
       else{
         if(error!==""){
           error+="\n";
