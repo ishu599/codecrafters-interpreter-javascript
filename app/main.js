@@ -164,7 +164,7 @@ if(error !== ""){
 
 }
 console.log(token);
-if(hasunexpectedcharacter === true){
+if(error !== ""){
   process.exit(65);
 }
 
