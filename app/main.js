@@ -68,9 +68,11 @@ if (fileContent.length !== 0) {
       else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
         let string_line = str.split(" ");
         for(const char of string_line) {
-          if (Identifiers.includes(char)) {
+          
+          if (Identifiers.includes(char) || char.StartsWith("_") || char.EndsWith("_")) {
             token += `IDENTIFIER ${char} null\n`;
           }
+          
           
         }
         break;
