@@ -89,7 +89,8 @@ if (fileContent.length !== 0) {
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
         if(nextStringLiteral == -1){
-          error += `[line ${i+1}] Error: Unterminated string.`
+          error += `[line ${i+1}] Error: Unterminated string.`;
+          hasunexpectedcharacter = true;
           break;
         }
         else{
@@ -157,12 +158,12 @@ if (fileContent.length !== 0) {
     }
   }
 }
-token+="EOF  null"
+token+="EOF  null\n"
 if(error !== ""){
   console.error(error);
 }
 console.log(token);
-if(error !== ""){
+if(hasunexpectedcharacter){
   process.exit(65);
 }
 
