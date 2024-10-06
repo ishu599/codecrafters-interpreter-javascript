@@ -19,6 +19,7 @@ const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 let token = "";
 let error = "";
+let Identifiers = ["foo","bar","_hello"];
 const unexpected_characters = ["@","&","#", "%","$"];
 let hasunexpectedcharacter = false;
 if (fileContent.length !== 0) {
@@ -63,6 +64,14 @@ if (fileContent.length !== 0) {
       else if (unexpected_characters.includes(str[j])) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
         hasunexpectedcharacter = true;
+      }
+      else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
+        let string_line = str.split(" ");
+        for( const char of string_line) {
+          if (Identifiers.includes(char)) {
+            token += `IDENTIFIER ${char} null\n`;
+          }
+        }
       }
       else if (str[j] >= '0' && str[j] <= '9') {
         const startDigit = j;
