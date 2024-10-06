@@ -60,7 +60,7 @@ if (fileContent.length !== 0) {
       else if(str[j]==";"){
         token+="SEMICOLON ; null\n";
       }
-      else if (str[j].includes(unexpected_characters)) {
+      else if (unexpected_characters.includes(str[j])) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
         hasunexpectedcharacter = true;
       }
@@ -88,7 +88,7 @@ if (fileContent.length !== 0) {
       }
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
-        if(nextStringLiteral == -1){
+        if(nextStringLiteral == -1) {
           error += `[line ${i+1}] Error: Unterminated string.\n`;
           hasunexpectedcharacter = true;
           break;
