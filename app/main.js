@@ -148,13 +148,11 @@ if (fileContent.length !== 0) {
           error+="\n";
         }
         
-      
       }
+
+      
     }
   }
-}
-if(error !== ""){
-  process.exit(65);
 }
 token+="EOF  null"
 if(error !== ""){
