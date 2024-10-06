@@ -1,4 +1,4 @@
-import fs, { link } from "fs";
+import fs from "fs";
 
 import { isFloat64Array } from "util/types";
 
