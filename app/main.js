@@ -156,11 +156,12 @@ if (fileContent.length !== 0) {
 
       
     }
-  }
+  
 }
-token+="EOF  null\n"
+token+="EOF  null"
 if(error !== ""){
   console.error(error);
+}
 }
 console.log(token);
 if(hasunexpectedcharacter === true){
