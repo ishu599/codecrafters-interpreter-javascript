@@ -1,5 +1,5 @@
 import fs, { link } from "fs";
-import { type } from "os";
+
 import { isFloat64Array } from "util/types";
 
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
