@@ -19,7 +19,7 @@ const filename = args[1];
 const fileContent = fs.readFileSync(filename, "utf8");
 let token = "";
 let error = "";
-let Identifiers = ["foo","bar","_hello"];
+let Identifiers = ["foo","bar","_hello","baz"];
 const unexpected_characters = ["@","&","#", "%","$"];
 let hasunexpectedcharacter = false;
 if (fileContent.length !== 0) {
