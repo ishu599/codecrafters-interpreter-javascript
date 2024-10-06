@@ -64,7 +64,7 @@ if (fileContent.length !== 0) {
         continue;
       }
       else if (str[j].includes(unexpected_characters)) {
-        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`;
+        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
         hasunexpectedcharacter = true;
       }
       else if (str[j] >= '0' && str[j] <= '9') {
@@ -92,7 +92,7 @@ if (fileContent.length !== 0) {
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
         if(nextStringLiteral == -1){
-          error += `[line ${i+1}] Error: Unterminated string.`;
+          error += `[line ${i+1}] Error: Unterminated string.\n`;
           hasunexpectedcharacter = true;
           break;
         }
