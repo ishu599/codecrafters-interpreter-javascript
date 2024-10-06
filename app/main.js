@@ -163,7 +163,7 @@ if(error !== ""){
   console.error(error);
 }
 console.log(token);
-if(hasunexpectedcharacter){
+if(hasunexpectedcharacter === true){
   process.exit(65);
 }
 
