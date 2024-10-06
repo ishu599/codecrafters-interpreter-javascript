@@ -60,6 +60,9 @@ if (fileContent.length !== 0) {
       else if(str[j]==";"){
         token+="SEMICOLON ; null\n";
       }
+      else if (str[j] === " " || str[j] === "\t") {
+        continue;
+      }
       else if (str[j].includes(unexpected_characters)) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}`;
         hasunexpectedcharacter = true;
@@ -144,9 +147,8 @@ if (fileContent.length !== 0) {
           token+="EQUAL = null\n";
         }
       }
-      else if (str[j] === " " || str[j] === "\t") {
-        continue;
-      }
+     
+      
       else{
         if(error!==""){
           error+="\n";
