@@ -69,7 +69,7 @@ if (fileContent.length !== 0) {
         let string_line = str.split(" ");
         for(const char of string_line) {
           
-          if (Identifiers.includes(char) || char.StartsWith("_") || char.EndsWith("_")) {
+          if (Identifiers.includes(char) || char[0] === "_" || char[char.length - 1] === "_") {
             token += `IDENTIFIER ${char} null\n`;
           }
           
