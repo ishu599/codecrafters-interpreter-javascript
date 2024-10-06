@@ -71,8 +71,9 @@ if (fileContent.length !== 0) {
           if (Identifiers.includes(char)) {
             token += `IDENTIFIER ${char} null\n`;
           }
-          break;
+          
         }
+        break;
       }
       else if (str[j] >= '0' && str[j] <= '9') {
         const startDigit = j;
