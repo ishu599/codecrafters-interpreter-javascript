@@ -221,6 +221,8 @@ if (fileContent.length !== 0) {
       }
       
     } 
+    error += (`[line ${Number.parseInt(line) + 1}] Error: Unexpected character: ${chars[i]}`)
+    hasError = true
     
     }
    
