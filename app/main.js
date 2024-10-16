@@ -17,53 +17,108 @@ if (command !== "tokenize") {
 const filename = args[1];
 // Uncomment this block to pass the first stage
 const fileContent = fs.readFileSync(filename, "utf8");
-let token = "";
-let error = "";
-let Identifiers = ["foo","bar","_hello","baz"];
-const unexpected_characters = ["@","&","#", "%","$"];
-let hasunexpectedcharacter = false;
+const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
+  RIGHT_PAREN: "RIGHT_PAREN",
+  LEFT_BRACE: "LEFT_BRACE",
+  RIGHT_BRACE: "RIGHT_BRACE",
+  COMMA: "COMMA",
+  DOT: "DOT",
+  MINUS: "MINUS",
+  PLUS: "PLUS",
+  SEMICOLON: "SEMICOLON",
+  STAR: "STAR",
+  EOF: "EOF",
+  BANG: "BANG",
+  BANG_EQUAL: "BANG_EQUAL",
+  EQUAL: "EQUAL",
+  EQUAL_EQUAL: "EQUAL_EQUAL",
+  GREATER: "GREATER",
+  GREATER_EQUAL: "GREATER_EQUAL",
+  LESS: "LESS",
+  LESS_EQUAL: "LESS_EQUAL",
+  SLASH: "SLASH",
+  STRING: "STRING",
+  NUMBER: "NUMBER",
+  IDENTIFIER: "IDENTIFIER",
+  AND: "AND",
+  CLASS: "CLASS",
+  ELSE: "ELSE",
+  FALSE: "FALSE",
+  FOR: "FOR",
+  FUN: "FUN",
+  IF: "IF",
+  NIL: "NIL",
+  OR: "OR",
+  PRINT: "PRINT",
+  RETURN: "RETURN",
+  SUPER: "SUPER",
+  THIS: "THIS",
+  TRUE: "TRUE",
+  VAR: "VAR",
+  WHILE: "WHILE",
+};
+let token = [];
+
+function printToken(token) {
+  console.log(
+    `${token.token_type} ${token.lexeme} ${token.literal ? token.litral : "null"}`
+  );
+}
+function isDigit(ch) {
+  if(ch >= "0" && ch <= "9") {
+    return true;
+  }
+  return false;
+}
+
+function isAlpha(ch) {
+  if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+    return true;
+  }
+}
 if (fileContent.length !== 0) {
   // throw new Error("Scanner not implemented");
   const fileLines = fileContent.split("\n");
   for(let i=0;i<fileLines.length;i++){
     const str = fileLines[i];
     for(let j=0;j<str.length;j++){
+      let haserror = false;
       if(str[j]==" " || str[j]=="\t"){
         continue;
       }
       else if(str[j]=="("){
-        token+="LEFT_PAREN ( null\n";
+        token+= `${TOKENS.LEFT_PAREN} ${str[j]} null\n`;
       }
       else if(str[j]==")"){
-        token+="RIGHT_PAREN ) null\n";
+        token+=`${TOKENS.RIGHT_PAREN} ) null\n`;
       }
       else if(str[j]=="{"){
-        token+="LEFT_BRACE { null\n";
+        token+=`${TOKENS.LEFT_BRACE} { null\n`;
       }
       else if(str[j]=="}"){
-        token+="RIGHT_BRACE } null\n";
+        token+=`${TOKENS.RIGHT_BRACE} } null\n`;
       }
       else if(str[j]==","){
-        token+="COMMA , null\n";
+        token+=`${TOKENS.COMMA} , null\n`;
       }
       else if(str[j]=="."){
-        token+="DOT . null\n";
+        token+=`${TOKENS.DOT} . null\n`;
       }
       else if(str[j]=="*"){
-        token+="STAR * null\n";
+        token+=`${TOKENS.STAR} * null\n`;
       }
       else if(str[j]=="+"){
-        token+="PLUS + null\n";
+        token+=`${TOKENS.PLUS} + null\n`;
       }
       else if(str[j]=="-"){
-        token+="MINUS - null\n";
+        token+=`${TOKENS.MINUS} - null\n`;
       }
       else if(str[j]==";"){
-        token+="SEMICOLON ; null\n";
+        token+=`${TOKENS.SEMICOLON} ; null\n`;
       }
-      else if (unexpected_characters.includes(str[j])) {
+      else if (!isAlpha(str[j]) || isDigit(str[j]) || !TOKENS.includes(str[j])) {
         error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
-        hasunexpectedcharacter = true;
+        haserror = true;
       }
       // identify if the line contains any identiier word
       else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
@@ -79,7 +134,7 @@ if (fileContent.length !== 0) {
         }
         continue;
       }
-      else if (str[j] >= '0' && str[j] <= '9') {
+      else if (isDigit(str[j])) {
         const startDigit = j;
         while (j < str.length && str[j] >= '0' && str[j] <= '9') {
           j++;
