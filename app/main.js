@@ -224,14 +224,14 @@ if (fileContent.length !== 0) {
 
     } 
     }
-  
+    if(haserror) {
+      process.exit(0);
+    }
 }
 token+="EOF  null"
 if(error !== ""){
   console.error(error);
-if(haserror) {
-  process.exit(0);
-}
+
 }
 console.log(token);
 if(error !== ""){
