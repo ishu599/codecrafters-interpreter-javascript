@@ -116,10 +116,7 @@ if (fileContent.length !== 0) {
       else if(str[j]==";"){
         token+=`${TOKENS.SEMICOLON} ; null\n`;
       }
-      else if (!isAlpha(str[j]) || isDigit(str[j]) || !TOKENS.includes(str[j])) {
-        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
-        haserror = true;
-      }
+      
       // identify if the line contains any identiier word
       else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
         let string_identifier = "";
@@ -215,7 +212,10 @@ if (fileContent.length !== 0) {
         }
       }
      
-      
+      else if (!isAlpha(str[j]) || isDigit(str[j])) {
+        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
+        haserror = true;
+      }
       else{
         if(error!==""){
           error+="\n";
