@@ -116,11 +116,12 @@ if (fileContent.length !== 0) {
       }
       
       // identify if the line contains any identiier word
-      else if (str[j].match(/[a-zA-Z_]/)) {
+      else if (isAlpha(str[j]) || str[j] === "_") {
         let string_identifier = "";
-        while (j < str.length && str[j].match(/[a-zA-Z0-9_]/)) {string_identifier += str[j];
+        while((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_" || (str[j] >= '0' && str[j] <= '9')) {
           j++;
         }
+        string_identifier = str.slice(i,j);
         // find length of string to check the last character of string for _
         
           token += `IDENTIFIER ${string_identifier} null\n`;
