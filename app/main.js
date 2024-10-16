@@ -125,7 +125,7 @@ if (fileContent.length !== 0) {
         }
         // find length of string to check the last character of string for _
         let length_string = string_identifier.length;
-        if (string_identifier[0] === "_" || string_identifier[length_string-1] === "_" || Identifiers.includes(string_identifier)) {
+        if (string_identifier[0] === "_" || string_identifier[length_string-1] === "_" || TOKENS.includes(string_identifier)) {
           token += `IDENTIFIER ${string_identifier} null\n`;
           string_identifier = "";
         }
