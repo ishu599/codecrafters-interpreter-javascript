@@ -116,7 +116,7 @@ if (fileContent.length !== 0) {
       }
       
       // identify if the line contains any identiier word
-      else if (isAlpha(str[j]) || str[j] === "_") {
+      else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_") {
         let string_identifier = "";
         while((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_" || (str[j] >= '0' && str[j] <= '9')) {
           j++;
