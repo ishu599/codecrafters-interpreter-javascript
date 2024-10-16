@@ -58,7 +58,7 @@ const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
   WHILE: "WHILE",
 };
 let token = [];
-
+let error = [];
 function printToken(token) {
   console.log(
     `${token.token_type} ${token.lexeme} ${token.literal ? token.litral : "null"}`
