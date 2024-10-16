@@ -229,7 +229,7 @@ if (fileContent.length !== 0) {
 token+="EOF  null"
 if(error !== ""){
   console.error(error);
-isAlpha(haserror) {
+if(haserror) {
   process.exit(0);
 }
 }
