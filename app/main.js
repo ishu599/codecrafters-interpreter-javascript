@@ -239,6 +239,9 @@ console.log(token);
 if(haserror) {
   process.exit(65);
 }
+else if (!haserror) {
+  process.exit(0);
+}
 if(error !== ""){
   process.exit(65);
 }
