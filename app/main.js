@@ -217,12 +217,12 @@ if (fileContent.length !== 0) {
         if(error!==""){
           error+="\n";
         }
-        
+        error += (`[line ${Number.parseInt(i) + 1}] Error: Unexpected character: ${str[j]}`)
+    hasError = true
       }
       
     } 
-    error += (`[line ${Number.parseInt(line) + 1}] Error: Unexpected character: ${chars[i]}`)
-    hasError = true
+    
     
     }
    
