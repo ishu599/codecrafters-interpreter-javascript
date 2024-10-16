@@ -84,10 +84,7 @@ if (fileContent.length !== 0) {
     const str = fileLines[i];
     for(let j=0;j<str.length;j++){
      
-      if(str[j]==" " || str[j]=="\t"){
-        continue;
-      }
-      else if(str[j]=="("){
+      if(str[j]=="("){
         token+= `${TOKENS.LEFT_PAREN} ${str[j]} null\n`;
       }
       else if(str[j]==")"){
@@ -129,6 +126,9 @@ if (fileContent.length !== 0) {
           token += `IDENTIFIER ${string_identifier} null\n`;
           j--;
         haserror = true;
+        continue;
+      }
+      else if(str[j]==" " || str[j]=="\t"){
         continue;
       }
       else if (isDigit(str[j])) {
