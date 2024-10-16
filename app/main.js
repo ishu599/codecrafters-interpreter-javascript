@@ -234,9 +234,10 @@ if(error !== ""){
   console.error(error);
 
 }
+console.log(token);
 if(error !== ""){
   process.exit(65);
 }
-console.log(token);
+
 
 
