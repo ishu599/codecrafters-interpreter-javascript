@@ -244,7 +244,9 @@ if(error !== ""){
 console.log(token);
 
 
-
+if (haserror) {
+  process.exit(0);
+}
 
 
 if(error !== ""){
