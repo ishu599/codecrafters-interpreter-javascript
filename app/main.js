@@ -118,17 +118,16 @@ if (fileContent.length !== 0) {
       }
       
       // identify if the line contains any identiier word
-      else if (str[j] === "f" || str[j] === "b" || str[j] === "_") {
+      else if (str[j].match(/[a-zA-Z_]/)) {
         let string_identifier = "";
-        while (str[j] != " ") {string_identifier += str[j];
+        while (j < chars.length && chars[j].match(/[a-zA-Z0-9_]/)) {string_identifier += str[j];
           j++;
         }
         // find length of string to check the last character of string for _
-        let length_string = string_identifier.length;
-        if (string_identifier[0] === "_" || string_identifier[length_string-1] === "_") {
+        
           token += `IDENTIFIER ${string_identifier} null\n`;
-          string_identifier = "";
-        }
+          j--;
+        
         continue;
       }
       else if (isDigit(str[j])) {
