@@ -223,7 +223,9 @@ if (fileContent.length !== 0) {
       
     } 
     
-    
+    if(haserror) {
+      process.exit(65);
+    }
     }
    
 }
@@ -236,9 +238,7 @@ console.log(token);
 
 
 
-if(haserror) {
-  process.exit(65);
-}
+
 
 if(error !== ""){
   process.exit(65);
