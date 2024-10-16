@@ -127,7 +127,7 @@ if (fileContent.length !== 0) {
         
           token += `IDENTIFIER ${string_identifier} null\n`;
           j--;
-        
+        haserror = true;
         continue;
       }
       else if (isDigit(str[j])) {
@@ -229,7 +229,9 @@ if (fileContent.length !== 0) {
 token+="EOF  null"
 if(error !== ""){
   console.error(error);
-
+isAlpha(haserror) {
+  process.exit(0);
+}
 }
 console.log(token);
 if(error !== ""){
