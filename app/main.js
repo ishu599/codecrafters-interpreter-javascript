@@ -156,7 +156,7 @@ if (fileContent.length !== 0) {
         let nextStringLiteral = str.indexOf('"', j+1);
         if(nextStringLiteral == -1) {
           error += `[line ${i+1}] Error: Unterminated string.\n`;
-          hasunexpectedcharacter = true;
+          haserror = true;
           break;
         }
         else{
@@ -235,4 +235,7 @@ if(error !== ""){
 
 }
 console.log(token);
+if(error !== ""){
+  process.exit(65);
+}
 
