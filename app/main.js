@@ -230,11 +230,12 @@ if(error !== ""){
 
 }
 console.log(token);
-if(error !== ""){
-  process.exit(65);
-}
+
 
 
 if(haserror) {
   process.exit(0);
+}
+if(error !== ""){
+  process.exit(65);
 }
