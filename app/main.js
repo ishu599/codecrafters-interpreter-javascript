@@ -211,10 +211,7 @@ if (fileContent.length !== 0) {
         }
       }
      
-      else if (!isAlpha(str[j]) || isDigit(str[j])) {
-        error+=`[line ${i+1}] Error: Unexpected character: ${str[j]}\n`;
-        haserror = true;
-      }
+      
       else{
         if(error!==""){
           error+="\n";
