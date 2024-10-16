@@ -76,13 +76,14 @@ function isAlpha(ch) {
     return true;
   }
 }
+let haserror = false;
 if (fileContent.length !== 0) {
   // throw new Error("Scanner not implemented");
   const fileLines = fileContent.split("\n");
   for(let i=0;i<fileLines.length;i++){
     const str = fileLines[i];
     for(let j=0;j<str.length;j++){
-      let haserror = false;
+     
       if(str[j]==" " || str[j]=="\t"){
         continue;
       }
