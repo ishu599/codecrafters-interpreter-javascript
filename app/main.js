@@ -218,9 +218,7 @@ if (fileContent.length !== 0) {
         }
         
       }
-      if(haserror) {
-        process.exit(0);
-      }
+      
     } 
     
     }
@@ -237,4 +235,6 @@ if(error !== ""){
 }
 
 
-
+if(haserror) {
+  process.exit(0);
+}
