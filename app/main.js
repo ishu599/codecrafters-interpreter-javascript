@@ -120,7 +120,7 @@ if (fileContent.length !== 0) {
       // identify if the line contains any identiier word
       else if (str[j].match(/[a-zA-Z_]/)) {
         let string_identifier = "";
-        while (j < char.length && chars[j].match(/[a-zA-Z0-9_]/)) {string_identifier += str[j];
+        while (j < str.length && str[j].match(/[a-zA-Z0-9_]/)) {string_identifier += str[j];
           j++;
         }
         // find length of string to check the last character of string for _
