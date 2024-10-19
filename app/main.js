@@ -116,27 +116,7 @@ if (fileContent.length !== 0) {
       else if(str[j]==";"){
         token+=`${TOKENS.SEMICOLON} ; null\n`;
       }
-      // to check if any reserved words is present
-      else if (isAlpha(str[j]) || str[j] === '_') {
-        let string2 = "";
-        let count = j;
-        while(count < str.length && str[count] != ' ' && str[count] != '(' && str[count] != ')') {
-          string2 += str[count];
-          count++;
-        }
-        j = count-1;
-
-        let index = Object.values(RESERVED_WORDS).indexOf(string2);
-        if (index > -1) {
-          token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
-        }
-        else {token += `IDENTIFIER ${string2} null\n`;}
-      }
-      // identify if the line contains any identiier word
-      
-      else if(str[j]==" " || str[j]=="\t"){
-        continue;
-      }
+      // checking for digit
       else if (isDigit(str[j])) {
         const startDigit = j;
         while (j < str.length && str[j] >= '0' && str[j] <= '9') {
@@ -159,6 +139,28 @@ if (fileContent.length !== 0) {
           token += `NUMBER ${numberString} ${numberString}\n`;
         }
       }
+      // to check if any reserved words is present
+      else if (isAlpha(str[j]) || str[j] === '_') {
+        let string2 = "";
+        let count = j;
+        while(count < str.length && str[count] != ' ' && str[count] != '(' && str[count] != ')') {
+          string2 += str[count];
+          count++;
+        }
+        j = count-1;
+
+        let index = Object.values(RESERVED_WORDS).indexOf(string2);
+        if (index > -1) {
+          token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
+        }
+        else {token += `IDENTIFIER ${string2} null\n`;}
+      }
+      // identify if the line contains any identiier word
+      
+      else if(str[j]==" " || str[j]=="\t"){
+        continue;
+      }
+      
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
         if(nextStringLiteral == -1) {
