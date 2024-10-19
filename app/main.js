@@ -39,23 +39,25 @@ const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
   SLASH: "SLASH",
   STRING: "STRING",
   NUMBER: "NUMBER",
-  IDENTIFIER: "IDENTIFIER",
-  AND: "AND",
-  CLASS: "CLASS",
-  ELSE: "ELSE",
-  FALSE: "FALSE",
-  FOR: "FOR",
-  FUN: "FUN",
-  IF: "IF",
-  NIL: "NIL",
-  OR: "OR",
-  PRINT: "PRINT",
-  RETURN: "RETURN",
-  SUPER: "SUPER",
-  THIS: "THIS",
-  TRUE: "TRUE",
-  VAR: "VAR",
-  WHILE: "WHILE",
+  IDENTIFIER: "IDENTIFIER"};
+
+  const RESERVED_WORDS = {
+  AND: "and",
+  CLASS: "class",
+  ELSE: "else",
+  FALSE: "false",
+  FOR: "for",
+  FUN: "fun",
+  IF: "if",
+  NIL: "nil",
+  OR: "or",
+  PRINT: "print",
+  RETURN: "return",
+  SUPER: "super",
+  THIS: "this",
+  TRUE: "true",
+  VAR: "var",
+  WHILE: "while",
 };
 let token = [];
 let error = [];
@@ -122,7 +124,7 @@ if (fileContent.length !== 0) {
           string2 += str[count];
           count++;
         }
-        let index = Object.values(TOKENS).indexOf(string2);
+        let index = Object.values(RESERVED_WORDS).indexOf(string2);
         if (index > -1) {
           token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
         }
