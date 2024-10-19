@@ -120,7 +120,7 @@ if (fileContent.length !== 0) {
       else if (isAlpha(str[j])) {
         let string2 = "";
         let count = j;
-        while(isAlpha(str[count])) {
+        while(count < str.length && str[count] != ' ' && str[count] != '(' && str[count] != ')') {
           string2 += str[count];
           count++;
         }
@@ -130,26 +130,9 @@ if (fileContent.length !== 0) {
         if (index > -1) {
           token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
         }
-        else break;
+        else {token += `IDENTIFIER ${string2} null\n`;}
       }
       // identify if the line contains any identiier word
-      else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_") {
-        
-        let string_identifier = "";
-        let startingindex = j;
-        while((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_" || (str[j] >= '0' && str[j] <= '9')) {
-          j++;
-        }
-        string_identifier = str.slice(startingindex,j);
-        
-        
-        // find length of string to check the last character of string for _
-        
-          token += `IDENTIFIER ${string_identifier} null\n`;
-          j--;
-        haserror = true;
-        continue;
-      }
       
       else if(str[j]==" " || str[j]=="\t"){
         continue;
