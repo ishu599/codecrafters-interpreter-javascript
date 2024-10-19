@@ -8,7 +8,7 @@ if (args.length < 2) {
   process.exit(1);
 }
 const command = args[0];
-if (command !== "tokenize") {
+if (command !== "tokenize" || command !== "evaluate") {
   console.error(`Usage: Unknown command: ${command}`);
   process.exit(1);
 }
@@ -78,10 +78,22 @@ function isAlpha(ch) {
     return true;
   }
 }
+const operators = ['+','-','*','/'];
 let haserror = false;
 if (fileContent.length !== 0) {
   // throw new Error("Scanner not implemented");
   const fileLines = fileContent.split("\n");
+  if (command === "evaluate") {
+    for (let i =0; i<fileLines.length;i++) {
+      const str = fileLines[i];
+      for (let j = 0; i < str.length;j++) {
+        if (str[j+1] === '+') {
+          console.log(str[j] + str[j+2]);
+        }
+      }
+    }
+  }
+  else {
   for(let i=0;i<fileLines.length;i++){
     const str = fileLines[i];
     for(let j=0;j<str.length;j++){
@@ -230,7 +242,7 @@ if (fileContent.length !== 0) {
       }
       
     } 
-    
+  }
     
     }
     
