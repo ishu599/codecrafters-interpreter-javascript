@@ -124,13 +124,8 @@ if (fileContent.length !== 0) {
           j++;
         }
         string_identifier = str.slice(startingindex,j);
-        const captialstring = string_identifier.toUpperCase();
-        for (const tokens in TOKENS) {
-          if (tokens === string_identifier) {
-            token += `${TOKENS.captialstring} ${string_identifier} null\n`;
-            break;
-          }
-        }
+        
+        
         // find length of string to check the last character of string for _
         
           token += `IDENTIFIER ${string_identifier} null\n`;
