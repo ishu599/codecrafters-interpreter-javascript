@@ -130,7 +130,7 @@ if (fileContent.length !== 0) {
         if (index > -1) {
           token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
         }
-        else continue;
+        else break;
       }
       // identify if the line contains any identiier word
       else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_") {
