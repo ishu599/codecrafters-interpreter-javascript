@@ -133,6 +133,17 @@ if (fileContent.length !== 0) {
         haserror = true;
         continue;
       }
+      else if (isAlpha(str[j])) {
+        const string2 = "";
+        while(isAlpha(str[j])) {
+          string2 += str[j];
+          j++;
+        }
+        let index = Object.values(TOKENS).indexOf(string2.toUpperCase());
+        if (index > -1) {
+          token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
+        }
+      }
       else if(str[j]==" " || str[j]=="\t"){
         continue;
       }
