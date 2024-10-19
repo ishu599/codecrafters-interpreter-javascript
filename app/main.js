@@ -124,6 +124,8 @@ if (fileContent.length !== 0) {
           string2 += str[count];
           count++;
         }
+        j = count;
+        
         let index = Object.values(RESERVED_WORDS).indexOf(string2);
         if (index > -1) {
           token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
