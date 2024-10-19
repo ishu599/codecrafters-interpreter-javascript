@@ -114,7 +114,19 @@ if (fileContent.length !== 0) {
       else if(str[j]==";"){
         token+=`${TOKENS.SEMICOLON} ; null\n`;
       }
-      
+      // to check if any reserved words is present
+      else if (isAlpha(str[j])) {
+        const string2 = "";
+        let count = j;
+        while(isAlpha(str[count])) {
+          string2 += str[count];
+          count++;
+        }
+        let index = Object.values(TOKENS).indexOf(string2.toUpperCase());
+        if (index > -1) {
+          token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
+        }
+      }
       // identify if the line contains any identiier word
       else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_") {
         
@@ -133,17 +145,7 @@ if (fileContent.length !== 0) {
         haserror = true;
         continue;
       }
-      else if (isAlpha(str[j])) {
-        const string2 = "";
-        while(isAlpha(str[j])) {
-          string2 += str[j];
-          j++;
-        }
-        let index = Object.values(TOKENS).indexOf(string2.toUpperCase());
-        if (index > -1) {
-          token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
-        }
-      }
+      
       else if(str[j]==" " || str[j]=="\t"){
         continue;
       }
