@@ -116,7 +116,7 @@ if (fileContent.length !== 0) {
       }
       // to check if any reserved words is present
       else if (isAlpha(str[j])) {
-        const string2 = "";
+        let string2 = "";
         let count = j;
         while(isAlpha(str[count])) {
           string2 += str[count];
