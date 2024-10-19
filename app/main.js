@@ -122,7 +122,7 @@ if (fileContent.length !== 0) {
           string2 += str[count];
           count++;
         }
-        let index = Object.values(TOKENS).indexOf(string2.toUpperCase());
+        let index = Object.values(TOKENS).indexOf(string2);
         if (index > -1) {
           token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
         }
