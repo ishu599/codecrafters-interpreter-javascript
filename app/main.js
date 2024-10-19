@@ -117,7 +117,7 @@ if (fileContent.length !== 0) {
         token+=`${TOKENS.SEMICOLON} ; null\n`;
       }
       // to check if any reserved words is present
-      else if (isAlpha(str[j])) {
+      else if (isAlpha(str[j]) || str[j] === '_') {
         let string2 = "";
         let count = j;
         while(count < str.length && str[count] != ' ' && str[count] != '(' && str[count] != ')') {
