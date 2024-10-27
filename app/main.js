@@ -101,6 +101,12 @@ function isInstance (number, type) {
     }
     return false;
   }
+  else if(type === 'bool') {
+    if (typeof number === 'bool') {
+      return true;
+    }
+    return false;
+  }
   return false;
 }
 // when the command is evaluate
@@ -171,7 +177,13 @@ function evaluate (fileContent) {
     else if (left === null) return false;
     return left === right; 
   }
-  
+  if (text[1] === null) {
+    if (left === null) return false;
+    else if (isInstance(left, "bool")) {
+      return left;
+    }
+    return true;
+  }
   }
 }
 
