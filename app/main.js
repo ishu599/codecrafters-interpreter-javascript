@@ -8,9 +8,15 @@ if (args.length < 2) {
   process.exit(1);
 }
 const command = args[0];
-if (command !== "tokenize" || command != "evaluate") {
-  console.error(`Usage: Unknown command: ${command}`);
-  process.exit(1);
+switch (command) {
+  case "tokenize":
+    tokenize(fileContent);
+  case "evaluate":
+    evaluate(fileContent);
+  case "parse":
+    evaluate(fileContent);
+  default:
+    unknowncommand(command);
 }
 // // You can use print statements as follows for debugging, they'll be visible when running tests.
 // console.error("Logs from your program will appear here!");
@@ -80,20 +86,115 @@ function isAlpha(ch) {
 }
 const operators = ['+','-','*','/'];
 let haserror = false;
+// if command does not match any known command
+function unknowncommand (command) {
+  console.error(`Usage: Unknown command: ${command}`);
+  process.exit(1);
+}
+function isInstance (number, type) {
+  if(type === 'string') {
+    if (typeof number === 'string') {
+      return true;
+    }
+    return false;
+  }
+  else if(type === 'number') {
+    if (typeof number === 'number') {
+      return true;
+    }
+    return false;
+  }
+  else if(type === 'float') {
+    if (typeof number === 'float') {
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
+// when the command is evaluate
+function evaluate (fileContent) {
+  if( fileContent.length != 0) {
+  let text = File(fileContent).readFileSync();
+  let left = text[0];
+  let right = text[2];
+  if (text[1] === '-') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left - right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '+') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left + right;
+    }
+    else if (isInstance(left,'string') && isInstance(right,'atring')) {
+      return left + right;}
+    else console.error("Operands must be two numbers or two strings.");
+  }
+  else if (text[1] === '/') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left / right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '*') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left * right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '>') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left > right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '>=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left >= right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '<') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left < right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '<=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left <= right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '!=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left != right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '===') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left === right;
+    }
+    else console.error("operand must be a number");
+  }
+  
+  }
+}
+
+
+
+
+
+// when the command is tokenize
+
+function tokenize (fileContent) {
 if (fileContent.length !== 0) {
   // throw new Error("Scanner not implemented");
   const fileLines = fileContent.split("\n");
-  if (command === "evaluate") {
-    for (let i =0; i<fileLines.length;i++) {
-      const str = fileLines[i];
-      for (let j = 0; i < str.length;j++) {
-        if (str[j+1] === '+') {
-          console.log(str[j] + str[j+2]);
-        }
-      }
-    }
-  }
-  else {
+  
   for(let i=0;i<fileLines.length;i++){
     const str = fileLines[i];
     for(let j=0;j<str.length;j++){
@@ -244,8 +345,6 @@ if (fileContent.length !== 0) {
     } 
   }
     
-    }
-    
 }
 token+="EOF  null"
 if(error !== ""){
@@ -253,7 +352,7 @@ if(error !== ""){
 
 }
 console.log(token);
-
+}
 
 if (!haserror) {
   process.exit(0);
