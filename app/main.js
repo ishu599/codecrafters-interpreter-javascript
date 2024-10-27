@@ -365,7 +365,7 @@ switch (command) {
   case "tokenize":
     tokenize(fileContent);
   case "evaluate":
-    evaluate(fileContent);
+    let final_value = evaluate(fileContent);
   case "parse":
     evaluate(fileContent);
   default:
@@ -375,3 +375,4 @@ switch (command) {
 if(error !== ""){
   process.exit(65);
 }
+console.log(final_value);
