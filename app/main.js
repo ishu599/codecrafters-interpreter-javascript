@@ -8,16 +8,7 @@ if (args.length < 2) {
   process.exit(1);
 }
 const command = args[0];
-switch (command) {
-  case "tokenize":
-    tokenize(fileContent);
-  case "evaluate":
-    evaluate(fileContent);
-  case "parse":
-    evaluate(fileContent);
-  default:
-    unknowncommand(command);
-}
+
 // // You can use print statements as follows for debugging, they'll be visible when running tests.
 // console.error("Logs from your program will appear here!");
 const filename = args[1];
@@ -358,6 +349,16 @@ if (!haserror) {
   process.exit(0);
 }
 
+switch (command) {
+  case "tokenize":
+    tokenize(fileContent);
+  case "evaluate":
+    evaluate(fileContent);
+  case "parse":
+    evaluate(fileContent);
+  default:
+    unknowncommand(command);
+}
 
 if(error !== ""){
   process.exit(65);
