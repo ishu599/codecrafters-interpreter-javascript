@@ -112,8 +112,8 @@ function isInstance (number, type) {
 // when the command is evaluate
 function evaluate (fileContent) {
   if( fileContent.length != 0) {
-  let fileLines2 = File(fileContent).readFileSync();
-  let text = fileLines2.split(" ");
+  
+  let text = fileContent.split(" ");
   let left = text[0];
   let right = text[2];
   if (text[1] === '-') {
