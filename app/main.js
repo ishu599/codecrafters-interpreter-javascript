@@ -124,10 +124,11 @@ if (fileContent.length !== 0) {
           j++;
         }
         string_identifier = str.slice(startingindex,j);
-        const captialstring = string_identifier.toUpperCase();
+        
         for (const tokens in TOKENS) {
           if (tokens === string_identifier) {
-            token += `${TOKENS.captialstring} ${string_identifier} null\n`;
+            let captialstring = string_identifier.toUpperCase();
+            token += `${TOKENS.} ${string_identifier} null\n`;
             break;
           }
         }
