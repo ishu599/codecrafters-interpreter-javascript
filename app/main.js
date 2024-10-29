@@ -116,13 +116,14 @@ function evaluate (fileContent) {
   let text = fileContent.split(" ");
   let left = text[0];
   let right = text[2];
-  if (text[1] === '-') {
+  let middle = middle;
+  if (middle === '-') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left - right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '+') {
+  else if (middle === '+') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left + right;
     }
@@ -130,49 +131,49 @@ function evaluate (fileContent) {
       return left + right;}
     else console.error("Operands must be two numbers or two strings.");
   }
-  else if (text[1] === '/') {
+  else if (middle === '/') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left / right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '*') {
+  else if (middle === '*') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left * right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '>') {
+  else if (middle === '>') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left > right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '>=') {
+  else if (middle === '>=') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left >= right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '<') {
+  else if (middle === '<') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left < right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '<=') {
+  else if (middle === '<=') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left <= right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '!=') {
+  else if (middle === '!=') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left != right;
     }
     else console.error("operand must be a number");
   }
-  else if (text[1] === '===') {
+  else if (middle === '===') {
     if (left === null && right === null) return true;
     else if (left === null) return false;
     return left === right; 
