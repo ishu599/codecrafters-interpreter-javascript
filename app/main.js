@@ -8,10 +8,7 @@ if (args.length < 2) {
   process.exit(1);
 }
 const command = args[0];
-if (command !== "tokenize") {
-  console.error(`Usage: Unknown command: ${command}`);
-  process.exit(1);
-}
+
 // // You can use print statements as follows for debugging, they'll be visible when running tests.
 // console.error("Logs from your program will appear here!");
 const filename = args[1];
@@ -39,23 +36,25 @@ const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
   SLASH: "SLASH",
   STRING: "STRING",
   NUMBER: "NUMBER",
-  IDENTIFIER: "IDENTIFIER",
-  AND: "AND",
-  CLASS: "CLASS",
-  ELSE: "ELSE",
-  FALSE: "FALSE",
-  FOR: "FOR",
-  FUN: "FUN",
-  IF: "IF",
-  NIL: "NIL",
-  OR: "OR",
-  PRINT: "PRINT",
-  RETURN: "RETURN",
-  SUPER: "SUPER",
-  THIS: "THIS",
-  TRUE: "TRUE",
-  VAR: "VAR",
-  WHILE: "WHILE",
+  IDENTIFIER: "IDENTIFIER"};
+
+  const RESERVED_WORDS = {
+  AND: "and",
+  CLASS: "class",
+  ELSE: "else",
+  FALSE: "false",
+  FOR: "for",
+  FUN: "fun",
+  IF: "if",
+  NIL: "nil",
+  OR: "or",
+  PRINT: "print",
+  RETURN: "return",
+  SUPER: "super",
+  THIS: "this",
+  TRUE: "true",
+  VAR: "var",
+  WHILE: "while",
 };
 let token = [];
 let error = [];
@@ -76,10 +75,129 @@ function isAlpha(ch) {
     return true;
   }
 }
+const operators = ['+','-','*','/'];
 let haserror = false;
+// if command does not match any known command
+function unknowncommand (command) {
+  console.error(`Usage: Unknown command: ${command}`);
+  process.exit(1);
+}
+function isInstance (number, type) {
+  if(type === 'string') {
+    if (typeof number === 'string') {
+      return true;
+    }
+    return false;
+  }
+  else if(type === 'number') {
+    if (typeof number === 'number') {
+      return true;
+    }
+    return false;
+  }
+  else if(type === 'float') {
+    if (typeof number === 'float') {
+      return true;
+    }
+    return false;
+  }
+  else if(type === 'bool') {
+    if (typeof number === 'bool') {
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
+// when the command is evaluate
+function evaluate (fileContent) {
+  if( fileContent.length != 0) {
+  let fileLines2 = File(fileContent).readFileSync();
+  let text = fileLines2.split(" ");
+  let left = text[0];
+  let right = text[2];
+  if (text[1] === '-') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left - right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '+') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left + right;
+    }
+    else if (isInstance(left,'string') && isInstance(right,'atring')) {
+      return left + right;}
+    else console.error("Operands must be two numbers or two strings.");
+  }
+  else if (text[1] === '/') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left / right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '*') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left * right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '>') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left > right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '>=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left >= right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '<') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left < right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '<=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left <= right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '!=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      return left != right;
+    }
+    else console.error("operand must be a number");
+  }
+  else if (text[1] === '===') {
+    if (left === null && right === null) return true;
+    else if (left === null) return false;
+    return left === right; 
+  }
+  
+    else if (left === null) return false;
+    else if (isInstance(left, "bool")) {
+      return left;
+    }
+    return true;
+  
+  }
+}
+
+
+
+
+
+// when the command is tokenize
+
+function tokenize (fileContent) {
 if (fileContent.length !== 0) {
   // throw new Error("Scanner not implemented");
   const fileLines = fileContent.split("\n");
+  
   for(let i=0;i<fileLines.length;i++){
     const str = fileLines[i];
     for(let j=0;j<str.length;j++){
@@ -124,11 +242,10 @@ if (fileContent.length !== 0) {
           j++;
         }
         string_identifier = str.slice(startingindex,j);
-        
+        const captialstring = string_identifier.toUpperCase();
         for (const tokens in TOKENS) {
           if (tokens === string_identifier) {
-            let captialstring = string_identifier.toUpperCase();
-            token += `${TOKENS.} ${string_identifier} null\n`;
+            token += `${TOKENS.captialstring} ${string_identifier} null\n`;
             break;
           }
         }
@@ -164,6 +281,28 @@ if (fileContent.length !== 0) {
           token += `NUMBER ${numberString} ${numberString}\n`;
         }
       }
+      // to check if any reserved words is present
+      else if (isAlpha(str[j]) || str[j] === '_') {
+        let string2 = "";
+        let count = j;
+        while(count < str.length && str[count] != ' ' && str[count] != '(' && str[count] != ')') {
+          string2 += str[count];
+          count++;
+        }
+        j = count-1;
+
+        let index = Object.values(RESERVED_WORDS).indexOf(string2);
+        if (index > -1) {
+          token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
+        }
+        else {token += `IDENTIFIER ${string2} null\n`;}
+      }
+      // identify if the line contains any identiier word
+      
+      else if(str[j]==" " || str[j]=="\t"){
+        continue;
+      }
+      
       else if(str[j]=='"'){
         let nextStringLiteral = str.indexOf('"', j+1);
         if(nextStringLiteral == -1) {
@@ -233,9 +372,7 @@ if (fileContent.length !== 0) {
       }
       
     } 
-    
-    
-    }
+  }
     
 }
 token+="EOF  null"
@@ -244,13 +381,24 @@ if(error !== ""){
 
 }
 console.log(token);
+}
 
-
-if (haserror) {
+if (!haserror) {
   process.exit(0);
 }
 
+switch (command) {
+  case "tokenize":
+    tokenize(fileContent);
+  case "evaluate":
+    let final_value = evaluate(fileContent);
+  case "parse":
+    evaluate(fileContent);
+  default:
+    unknowncommand(command);
+}
 
 if(error !== ""){
   process.exit(65);
 }
+console.log(final_value);
