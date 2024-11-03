@@ -56,6 +56,16 @@ const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
   VAR: "var",
   WHILE: "while",
 };
+switch (command) {
+  case "tokenize":
+    tokenize(fileContent);
+  case "evaluate":
+    let final_value = evaluate(fileContent);
+  case "parse":
+    evaluate(fileContent);
+  default:
+    unknowncommand(command);
+}
 let token = [];
 let error = [];
 function printToken(token) {
@@ -390,16 +400,7 @@ if (!haserror) {
   process.exit(0);
 }
 
-switch (command) {
-  case "tokenize":
-    tokenize(fileContent);
-  case "evaluate":
-    let final_value = evaluate(fileContent);
-  case "parse":
-    evaluate(fileContent);
-  default:
-    unknowncommand(command);
-}
+
 
 if(error !== ""){
   process.exit(65);
