@@ -104,7 +104,7 @@ function evaluate (fileContent) {
   }
   else if (middle === '-') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left - right;
+      token += left - right + '\n';
     }
     else console.error("operand must be a number");
   }
