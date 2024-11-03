@@ -96,7 +96,7 @@ function evaluate (fileContent) {
   const fileLines = fileContent.split("\n");
   if( fileContent.length != 0) {
   
-  const text = fileLines.split(" ");
+  const text = fileLines[1];
   const left = text[0];
   const right = text[2];
   const middle = text[1];
