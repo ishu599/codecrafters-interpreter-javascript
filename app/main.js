@@ -56,15 +56,16 @@ const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
   VAR: "var",
   WHILE: "while",
 };
-switch (command) {
-  case "tokenize":
-    tokenize(fileContent);
-  case "evaluate":
-    let final_value = evaluate(fileContent);
-  case "parse":
-    evaluate(fileContent);
-  default:
-    unknowncommand(command);
+
+// to call the function based on the command
+if (command === "tokenize") {
+  tokenize(command);
+}
+else if (command === "evaluate") {
+  evaluate(command);
+}
+else (command) {
+  unknowncommand(command);
 }
 let token = [];
 let error = [];
