@@ -127,7 +127,7 @@ function evaluate (fileContent) {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left + right;
     }
-    else if (isInstance(left,'string') && isInstance(right,'atring')) {
+    else if (isInstance(left,'string') && isInstance(right,'string')) {
       return left + right;}
     else console.error("Operands must be two numbers or two strings.");
   }
