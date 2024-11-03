@@ -126,7 +126,7 @@ function evaluate (fileContent) {
   const text = fileContent.split(" ");
   const left = text[0];
   const right = text[2];
-  const middle = middle;
+  const middle = text[1];
   if (left === true) {{
     return left;
   }
