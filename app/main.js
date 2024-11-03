@@ -36,12 +36,7 @@ const fileContent = fs.readFileSync(filename, "utf8");
 };
 
 // to call the function based on the command
-if (command === "evaluate") {
-  evaluate(command);
-}
-else {
-  unknowncommand(command);
-}
+evaluate(command);
 let token = [];
 let error = [];
 function printToken(token) {
