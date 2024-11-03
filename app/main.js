@@ -93,13 +93,14 @@ function isInstance (number, type) {
 // when the command is evaluate
 function evaluate (fileContent) {
   let answer = [];
+  const fileLines = fileContent.split("\n");
   if( fileContent.length != 0) {
   
-  const text = fileContent.split(" ");
+  const text = fileLines.split(" ");
   const left = text[0];
   const right = text[2];
   const middle = text[1];
-  console.log(left,right,middle)
+  console.log(left,right,middle);
   if (left === true) {{
     answer += "true\n";
   }
