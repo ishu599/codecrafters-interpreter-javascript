@@ -92,7 +92,7 @@ function isInstance (number, type) {
 }
 // when the command is evaluate
 function evaluate (fileContent) {
-  let answer
+  let answer = "";
   if( fileContent.length != 0) {
   
   const text = fileContent.split(" ");
