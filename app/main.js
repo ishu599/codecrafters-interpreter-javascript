@@ -93,9 +93,9 @@ function isInstance (number, type) {
 // when the command is evaluate
 function evaluate (fileContent) {
   let answer = [];
-  const fileLines = fileContent.split("\n");
-  if( fileContent.length != 0) {
   
+  if( fileContent.length != 0) {
+    const fileLines = fileContent.split("\n");
   const text = fileLines[1];
   const left = text[0];
   const right = text[2];
