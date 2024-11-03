@@ -113,10 +113,10 @@ function isInstance (number, type) {
 function evaluate (fileContent) {
   if( fileContent.length != 0) {
   
-  let text = fileContent.split(" ");
-  let left = text[0];
-  let right = text[2];
-  let middle = middle;
+  const text = fileContent.split(" ");
+  const left = text[0];
+  const right = text[2];
+  const middle = middle;
   if (middle === '-') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left - right;
@@ -179,12 +179,13 @@ function evaluate (fileContent) {
     return left === right; 
   }
   
-    else if (left === null) return false;
-    else if (isInstance(left, "bool")) {
+    
+    else if (isInstance(left, "bool")) {{
       return left;
     }
     return true;
-  
+    }
+    else if (left === null) return false;
   }
 }
 
