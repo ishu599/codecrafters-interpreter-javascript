@@ -117,7 +117,7 @@ function evaluate (fileContent) {
   const left = text[0];
   const right = text[2];
   const middle = middle;
-  if (isInstance(left, "bool")) {{
+  if (left === true) {{
     return left;
   }
   return true;
