@@ -99,7 +99,7 @@ function evaluate (fileContent) {
   const right = text[2];
   const middle = text[1];
   if (left === true) {{
-    return left;
+    console.log(true);
   }
   return true;
   }
