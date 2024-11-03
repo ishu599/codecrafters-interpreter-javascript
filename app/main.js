@@ -117,7 +117,12 @@ function evaluate (fileContent) {
   const left = text[0];
   const right = text[2];
   const middle = middle;
-  if (middle === '-') {
+  if (isInstance(left, "bool")) {{
+    return left;
+  }
+  return true;
+  }
+  else if (middle === '-') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
       return left - right;
     }
@@ -180,11 +185,7 @@ function evaluate (fileContent) {
   }
   
     
-    else if (isInstance(left, "bool")) {{
-      return left;
-    }
-    return true;
-    }
+    
     else if (left === null) return false;
   }
 }
