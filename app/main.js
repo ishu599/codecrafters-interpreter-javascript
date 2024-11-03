@@ -14,29 +14,7 @@ const command = args[0];
 const filename = args[1];
 // Uncomment this block to pass the first stage
 const fileContent = fs.readFileSync(filename, "utf8");
-const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
-  RIGHT_PAREN: "RIGHT_PAREN",
-  LEFT_BRACE: "LEFT_BRACE",
-  RIGHT_BRACE: "RIGHT_BRACE",
-  COMMA: "COMMA",
-  DOT: "DOT",
-  MINUS: "MINUS",
-  PLUS: "PLUS",
-  SEMICOLON: "SEMICOLON",
-  STAR: "STAR",
-  EOF: "EOF",
-  BANG: "BANG",
-  BANG_EQUAL: "BANG_EQUAL",
-  EQUAL: "EQUAL",
-  EQUAL_EQUAL: "EQUAL_EQUAL",
-  GREATER: "GREATER",
-  GREATER_EQUAL: "GREATER_EQUAL",
-  LESS: "LESS",
-  LESS_EQUAL: "LESS_EQUAL",
-  SLASH: "SLASH",
-  STRING: "STRING",
-  NUMBER: "NUMBER",
-  IDENTIFIER: "IDENTIFIER"};
+
 
   const RESERVED_WORDS = {
   AND: "and",
@@ -58,10 +36,7 @@ const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
 };
 
 // to call the function based on the command
-if (command === "tokenize") {
-  tokenize(command);
-}
-else if (command === "evaluate") {
+if (command === "evaluate") {
   evaluate(command);
 }
 else {
