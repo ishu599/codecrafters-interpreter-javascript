@@ -99,9 +99,8 @@ function evaluate (fileContent) {
   const right = text[2];
   const middle = text[1];
   if (left === true) {{
-    console.log("true");
+    token += "true\n";
   }
-  return true;
   }
   else if (middle === '-') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
@@ -169,6 +168,7 @@ function evaluate (fileContent) {
     
     else if (left === null) return false;
   }
+  console.log(token);
 }
 
 
