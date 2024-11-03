@@ -64,7 +64,7 @@ if (command === "tokenize") {
 else if (command === "evaluate") {
   evaluate(command);
 }
-else (command) {
+else {
   unknowncommand(command);
 }
 let token = [];
