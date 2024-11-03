@@ -92,6 +92,7 @@ function isInstance (number, type) {
 }
 // when the command is evaluate
 function evaluate (fileContent) {
+  let answer
   if( fileContent.length != 0) {
   
   const text = fileContent.split(" ");
@@ -99,12 +100,12 @@ function evaluate (fileContent) {
   const right = text[2];
   const middle = text[1];
   if (left === true) {{
-    token += "true\n";
+    answer += "true\n";
   }
   }
   else if (middle === '-') {
     if(isInstance(left,'float') && isInstance(right,'float')) {
-      token += left - right + '\n';
+      answer += left - right + '\n';
     }
     else console.error("operand must be a number");
   }
@@ -168,7 +169,7 @@ function evaluate (fileContent) {
     
     else if (left === null) return false;
   }
-  console.log(token);
+  console.log(answer);
 }
 
 
