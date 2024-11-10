@@ -91,8 +91,9 @@ function isInstance (number, type) {
   return false;
 }
 // when the command is evaluate
+let answer = [];
 function evaluate (fileContent) {
-  let answer = [];
+ 
   
   if( fileContent.length != 0) {
     const fileLines = fileContent.split("\n");
