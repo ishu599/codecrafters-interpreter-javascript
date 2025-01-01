@@ -1,384 +1,45 @@
-import fs from "fs";
-import { evaluate } from "evaluate.js";
-
-import { isFloat64Array } from "util/types";
-
+import fs from 'fs';
+import { scan } from './scanner.js';
+import { parse, printAst } from './parser.js';
+import { evaluate } from './evaluate.js';
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
-  console.error("Usage: ./your_program.sh tokenize <filename>");
+  console.error('Usage: ./your_program.sh tokenize <filename>');
   process.exit(1);
 }
 const command = args[0];
-
-// // You can use print statements as follows for debugging, they'll be visible when running tests.
-// console.error("Logs from your program will appear here!");
-const filename = args[1];
-// Uncomment this block to pass the first stage
-const fileContent = fs.readFileSync(filename, "utf8");
-
-
-  const RESERVED_WORDS = {
-  AND: "and",
-  CLASS: "class",
-  ELSE: "else",
-  FALSE: "false",
-  FOR: "for",
-  FUN: "fun",
-  IF: "if",
-  NIL: "nil",
-  OR: "or",
-  PRINT: "print",
-  RETURN: "return",
-  SUPER: "super",
-  THIS: "this",
-  TRUE: "true",
-  VAR: "var",
-  WHILE: "while",
-};
-
-// to call the function based on the command
-evaluate(command);
-let token = [];
-let error = [];
-function printToken(token) {
-  console.log(
-    `${token.token_type} ${token.lexeme} ${token.literal ? token.litral : "null"}`
-  );
-}
-function isDigit(ch) {
-  if(ch >= "0" && ch <= "9") {
-    return true;
+if (command === 'tokenize') {
+  const filename = args[1];
+  const fileContent = fs.readFileSync(filename, 'utf8');
+  const { tokens, errors } = scan(fileContent);
+  for (const token of tokens) {
+    console.log(token.type, token.text, token.litteral);
   }
-  return false;
-}
-
-function isAlpha(ch) {
-  if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
-    return true;
+  if (errors > 0) {
+    process.exit(65);
   }
-}
-const operators = ['+','-','*','/'];
-let haserror = false;
-// if command does not match any known command
-function unknowncommand (command) {
-  console.error(`Usage: Unknown command: ${command}`);
+} else if (command === 'parse') {
+  const filename = args[1];
+  const fileContent = fs.readFileSync(filename, 'utf8');
+  const { tokens, errors } = scan(fileContent);
+  if (errors > 0) {
+    process.exit(65);
+  }
+  let ast = parse(tokens);
+  if (ast) console.log(printAst(ast));
+  else process.exit(65);
+} else if (command === 'evaluate') {
+  const filename = args[1];
+  const fileContent = fs.readFileSync(filename, 'utf8');
+  const { tokens, errors } = scan(fileContent);
+  if (errors > 0) {
+    process.exit(65);
+  }
+  let ast = parse(tokens);
+  if (!ast) process.exit(65);
+  const result = evaluate(ast);
+  console.info(result);
+} else {
+  console.error('Unknown command:', command);
   process.exit(1);
 }
-function isInstance (number, type) {
-  if(type === 'string') {
-    if (typeof number === 'string') {
-      return true;
-    }
-    return false;
-  }
-  else if(type === 'number') {
-    if (typeof number === 'number') {
-      return true;
-    }
-    return false;
-  }
-  else if(type === 'float') {
-    if (typeof number === 'float') {
-      return true;
-    }
-    return false;
-  }
-  else if(type === 'bool') {
-    if (typeof number === 'bool') {
-      return true;
-    }
-    return false;
-  }
-  return false;
-}
-
-// when the command is evaluate
-let answer = [];
-
-// when the command is evaluate
-
-/** 
-function evaluate (fileContent) {
-  if( fileContent.length != 0) {
-  let fileLines2 = File(fileContent).readFileSync();
-  let text = fileLines2.split(" ");
-  let left = text[0];
-  let right = text[2];
-  if (text[1] === '-') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left - right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '+') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left + right;
-    }
-    else if (isInstance(left,'string') && isInstance(right,'atring')) {
-      return left + right;}
-    else console.error("Operands must be two numbers or two strings.");
-  }
-  else if (text[1] === '/') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left / right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '*') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left * right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '>') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left > right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '>=') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left >= right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '<') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left < right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '<=') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left <= right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '!=') {
-    if(isInstance(left,'float') && isInstance(right,'float')) {
-      return left != right;
-    }
-    else console.error("operand must be a number");
-  }
-  else if (text[1] === '===') {
-    if (left === null && right === null) return true;
-    else if (left === null) return false;
-    return left === right; 
-  }
-  
-    else if (left === null) return false;
-    else if (isInstance(left, "bool")) {
-      return left;
-    }
-    return true;
-  
-  }
-}
-
-*/
-
-
-
-
-// when the command is tokenize
-
-function tokenize (fileContent) {
-if (fileContent.length !== 0) {
-  // throw new Error("Scanner not implemented");
-  const fileLines = fileContent.split("\n");
-  
-  for(let i=0;i<fileLines.length;i++){
-    const str = fileLines[i];
-    for(let j=0;j<str.length;j++){
-     
-      if(str[j]=="("){
-        token+= `${TOKENS.LEFT_PAREN} ${str[j]} null\n`;
-      }
-      else if(str[j]==")"){
-        token+=`${TOKENS.RIGHT_PAREN} ) null\n`;
-      }
-      else if(str[j]=="{"){
-        token+=`${TOKENS.LEFT_BRACE} { null\n`;
-      }
-      else if(str[j]=="}"){
-        token+=`${TOKENS.RIGHT_BRACE} } null\n`;
-      }
-      else if(str[j]==","){
-        token+=`${TOKENS.COMMA} , null\n`;
-      }
-      else if(str[j]=="."){
-        token+=`${TOKENS.DOT} . null\n`;
-      }
-      else if(str[j]=="*"){
-        token+=`${TOKENS.STAR} * null\n`;
-      }
-      else if(str[j]=="+"){
-        token+=`${TOKENS.PLUS} + null\n`;
-      }
-      else if(str[j]=="-"){
-        token+=`${TOKENS.MINUS} - null\n`;
-      }
-      else if(str[j]==";"){
-        token+=`${TOKENS.SEMICOLON} ; null\n`;
-      }
-      
-      // identify if the line contains any identiier word
-      else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_") {
-        
-        let string_identifier = "";
-        let startingindex = j;
-        while((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_" || (str[j] >= '0' && str[j] <= '9')) {
-          j++;
-        }
-        string_identifier = str.slice(startingindex,j);
-        const captialstring = string_identifier.toUpperCase();
-        for (const tokens in TOKENS) {
-          if (tokens === string_identifier) {
-            token += `${TOKENS.captialstring} ${string_identifier} null\n`;
-            break;
-          }
-        }
-        // find length of string to check the last character of string for _
-        
-          token += `IDENTIFIER ${string_identifier} null\n`;
-          j--;
-        haserror = true;
-        continue;
-      }
-      else if(str[j]==" " || str[j]=="\t"){
-        continue;
-      }
-      else if (isDigit(str[j])) {
-        const startDigit = j;
-        while (j < str.length && str[j] >= '0' && str[j] <= '9') {
-          j++;
-        }
-        if (str[j] === "." && j + 1 < str.length && str[j + 1] >= '0' && str[j + 1] <= '9') {
-          j++;
-          while ( j < str.length && str[j] >= '0' && str[j] <= '9') {
-            j++;
-          }
-        }
-        const numberString = str.slice(startDigit,j);
-        j--;
-        let num = parseFloat(numberString);
-        if (Number.isInteger(num)) {
-          let formattedNum = num.toFixed(1);
-          token += `NUMBER ${numberString} ${formattedNum}\n`;
-        }
-        else {
-          token += `NUMBER ${numberString} ${numberString}\n`;
-        }
-      }
-      // to check if any reserved words is present
-      else if (isAlpha(str[j]) || str[j] === '_') {
-        let string2 = "";
-        let count = j;
-        while(count < str.length && str[count] != ' ' && str[count] != '(' && str[count] != ')') {
-          string2 += str[count];
-          count++;
-        }
-        j = count-1;
-
-        let index = Object.values(RESERVED_WORDS).indexOf(string2);
-        if (index > -1) {
-          token += `${string2.toUpperCase()} ${string2.toLowerCase()} null\n`;
-        }
-        else {token += `IDENTIFIER ${string2} null\n`;}
-      }
-      // identify if the line contains any identiier word
-      
-      else if(str[j]==" " || str[j]=="\t"){
-        continue;
-      }
-      
-      else if(str[j]=='"'){
-        let nextStringLiteral = str.indexOf('"', j+1);
-        if(nextStringLiteral == -1) {
-          error += `[line ${i+1}] Error: Unterminated string.\n`;
-          haserror = true;
-          break;
-        }
-        else{
-          let stringIn = str.slice(j+1, nextStringLiteral);
-          token += `STRING "${stringIn}" ${stringIn}\n`;
-          j = nextStringLiteral;
-          continue;
-        }
-      }
-      else if(str[j]=="/"){
-        if(j+1<str.length && str[j+1]=="/"){
-          break;
-        }
-        else{
-          token+="SLASH / null\n";
-        }
-      }
-      else if(str[j]=="<"){
-        if(j+1<str.length && str[j+1]=="="){
-          j+=1;
-          token+="LESS_EQUAL <= null\n";
-        }
-        else{
-          token+="LESS < null\n";
-        }
-      }
-      else if(str[j]==">"){
-        if(j+1<str.length && str[j+1]=="="){
-          j+=1;
-          token+="GREATER_EQUAL >= null\n";
-        }
-        else{
-          token+="GREATER > null\n";
-        }
-      }
-      else if(str[j]=="!"){
-        if(j+1<str.length && str[j+1]=="="){
-          j+=1;
-          token+="BANG_EQUAL != null\n";
-        }
-        else{
-          token+="BANG ! null\n";
-        }
-      }
-      else if(str[j]=="="){
-        if(j+1<str.length && str[j+1]=="="){
-          j+=1;
-          token+="EQUAL_EQUAL == null\n";
-        }
-        else{
-          token+="EQUAL = null\n";
-        }
-      }
-     
-      
-      else{
-        if(error!==""){
-          error+="\n";
-        }
-        error += (`[line ${Number.parseInt(i) + 1}] Error: Unexpected character: ${str[j]}`)
-    haserror = true
-      }
-      
-    } 
-  }
-    
-}
-token+="EOF  null"
-if(error !== ""){
-  console.error(error);
-
-}
-console.log(token);
-}
-
-if (!haserror) {
-  process.exit(0);
-}
-
-
-
-if(error !== ""){
-  process.exit(65);
-}
-console.log(final_value);
