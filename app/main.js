@@ -1,50 +1,53 @@
 import fs from "fs";
-import { Lox } from "./lox.js";
-import { AstPrinter } from "./tool/ast_printer.js";
-import process from "process";
-const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
-if (args.length < 2) {
+import { printToken, tokenize } from "./tokenizer.js";
+import { printAst } from "./parser.js";
+import { interpret } from "./evaluator.js";
+const Commands = {
+  "tokenize": ([fileName]) => {
+    const fileContent = fs.readFileSync(fileName, "utf8");
+    const {returnCode, tokens} = tokenize(fileContent);
+    // if (returnCode) {
+    //   console.log("TokenizerError. Can't print tokens");
+    //   return returnCode;
+    // }
+    printToken(tokens);
+    return returnCode;
+  },
+  "parse": ([fileName]) => {
+    const fileContent = fs.readFileSync(fileName, "utf8");
+    const { returnCode: tokenizerReturnCode, tokens} = tokenize(fileContent);
+    // if (tokenizerReturnCode) {
+    //   console.log("TokenizerError. Can't parse ast.");
+    //   return tokenizerReturnCode;
+    // }
+    // const {returnCode, ast} = parse(tokens);
+    // if (returnCode) {
+    //   console.log("ParserError. Can't print tokens");
+      
+    //   return returnCode;
+    // }
+    // return printAst(ast);
+    // console.log(parsed);
+    // const {returnCode, toPrint}
+    return printAst(tokens);
+  },
+  "evaluate": ([fileName]) => {
+    const fileContent = fs.readFileSync(fileName, "utf8");
+    const { returnCode: tokenizerReturnCode, tokens} = tokenize(fileContent);
+    return interpret(tokens);
+  },
+}
+const [commandName, ...args] = process.argv.slice(2);
+if (!args.length) {
   console.error("Usage: ./your_program.sh tokenize <filename>");
   process.exit(1);
-}
-const command = args[0];
-const filename = args[1];
-if (command == "tokenize") {
-  const fileContent = fs.readFileSync(filename, "utf8");
-  if (fileContent.length !== 0) {
-    const lox = new Lox(fileContent);
-    lox.tokenize();
-    for (let token of lox.scanner.tokens) {
-      console.log(token.toString());
-    }
-    if (lox.hasError) process.exit(65);
+} else {
+  if (commandName in Commands) {
+    const returnCode = Commands[commandName](args);
+    process.exit(returnCode);
   } else {
-    console.log("EOF  null");
-  }
-}
-if (command == "parse") {
-  const fileContent = fs.readFileSync(filename, "utf8");
-  const astPrinter = new AstPrinter();
-  if (fileContent.length !== 0) {
-    const lox = new Lox(fileContent);
-    lox.tokenize();
-    lox.parse();
-    console.log(astPrinter.print(lox.expression));
-    if (lox.hasError) process.exit(65);
-  } else {
-    console.log("EOF  null");
-  }
-}
-if (command == "evaluate") {
-  const fileContent = fs.readFileSync(filename, "utf8");
-  if (fileContent.length !== 0) {
-    const lox = new Lox(fileContent);
-    lox.tokenize();
-    lox.parse();
-    const result = lox.evaluate();
-    console.log(result);
-    if (lox.hasError) process.exit(65);
-  } else {
-    console.log("EOF  null");
+    console.error(`Usage: Unknown command: ${commandName}.`);
+    console.error(`List of available commands: ${Object.keys(Commands).join(",")}.`)
+    process.exit(1);
   }
 }

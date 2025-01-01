@@ -1,124 +1,207 @@
-export class ParseError extends Error {
-    constructor(token, ...rest) {
-      super(...rest);
-      this.token = token;
-      this.name = 'ParseError';
-      if (Error.captureStackTrace) {
-        Error.captureStackTrace(this, ParseError);
-      }
+class Expression {
+    
+    accept(){
     }
-  }
-  export function parse(tokens) {
-    let idx = 0;
-    const check = (type) => tokens[idx].type === type;
-    const advance = () => tokens[idx++];
-    const peek = (i = 0) => tokens[idx + i];
-    const previous = () => tokens[idx - 1];
-    const match = (...types) => {
-      for (const type of types) {
-        if (check(type)) {
-          advance();
-          return true;
+}
+class Visitor extends Expression {
+    
+    visitLiteral(){};
+    visitGrouping(){};
+    visitUnary(){};
+    visitBinary(){};
+}
+class AstPrinter extends Visitor {
+    print(expression) {
+        return expression.accept(this);
+    }
+    visitLiteral(expression){
+        return expression.value === null ? "nil" : expression.value.toString();
+    }
+    visitGrouping(expression){
+        return this.parenthesize("group", expression.expression);
+    }
+    visitUnary(expression) {
+        return this.parenthesize(expression.operator.lexeme, expression.right);
+    }
+    visitBinary(expression) {
+        return this.parenthesize(expression.operator.lexeme, expression.left, expression.right);
+    }
+    parenthesize(name, ...expressions){
+        let string = `(${name} `;
+        string += expressions.map(expression => expression.accept(this)).join(" ");
+        return string + ")";
+    }
+}
+class Literal extends Expression {
+    constructor(value) {
+        super();
+        this.value = value;
+    }
+    accept(visitor) {
+        return visitor.visitLiteral(this);
+    }
+}
+class Binary extends Expression {
+    constructor(leftExpression, operator, rightExpression) {
+        super();
+        this.left = leftExpression;
+        this.operator = operator;
+        this.right = rightExpression;
+    }
+    accept(visitor) {
+        return visitor.visitBinary(this);
+    }
+}
+class Grouping extends Expression {
+    constructor(expression){
+        super();
+        this.expression = expression;
+    }
+    accept(visitor){
+        return visitor.visitGrouping(this);
+    }
+    
+}
+class Unary extends Expression {
+    constructor(operator, rightExpression){
+        super();
+        this.operator = operator;
+        this.right = rightExpression;
+    }
+    accept(visitor) {
+        return visitor.visitUnary(this);
+    }
+}
+const printAst = (tokens) => {
+    const printer = new AstPrinter();
+    const parser = new Parser(tokens);
+    const parsed = parser.parse();
+    if (parsed === null) {
+        //error
+        return 65;
+    }
+    console.log(printer.print(parsed));
+    return 0;
+}
+class Parser {
+    constructor(tokens){
+        this.tokens = tokens;
+        this.current = 0;
+    }
+    get expression() {
+        return this.equality;
+    }
+    get equality() {
+        let expression = this.comparison;
+        while (this.match("BANG_EQUAL", "EQUAL_EQUAL")) {
+            const operator = this.previous;
+            const right = this.comparison;
+            expression = new Binary(expression, operator, right);
         }
-      }
-      return false;
-    };
-    const consume = (type, message) => {
-      if (check(type)) return advance();
-      throw new ParseError(peek(), message);
-    };
-    const primary = () => {
-        if (match('FALSE')) return ['literal', false, false];
-    if (match('TRUE')) return ['literal', true, true];
-    if (match('NIL')) return ['literal', 'nil', 'nil'];
-    if (match('NUMBER'))
-      return ['literal', previous().litteral, +previous().litteral];
-    if (match('STRING'))
-      return ['literal', previous().litteral, previous().litteral];
-    if (match('IDENTIFIER')) return ['identifier', previous().name];
-    if (match('LEFT_PAREN')) {
-      const expr = expression();
-      consume('RIGHT_PAREN', 'Expected ")" after expression.');
-      return ['grouping', expr];
+        return expression;
     }
-  };
-  const unary = () => {
-    if (match('BANG', 'MINUS')) {
-      const operator = previous();
-      const right = unary();
-      return ['unary', operator, right];
+    get comparison() {
+        let expression = this.term;
+        while (this.match("GREATER", "GREATER_EQUAL", "LESS", "LESS_EQUAL")) {
+            const operator = this.previous;
+            const right = this.term;
+            expression = new Binary(expression, operator, right);
+        }
+        return expression;
     }
-    return primary();
-  };
-  const factor = () => {
-    let expr = unary();
-    while (match('SLASH', 'STAR')) {
-      const operator = previous();
-      const right = unary();
-      expr = ['binary', expr, operator, right];
+    get term() {
+        let expression = this.factor;
+        while (this.match("PLUS", "MINUS")) {
+            const operator = this.previous;
+            const right = this.factor;
+            expression = new Binary(expression, operator, right);
+        }
+        return expression;
     }
-    return expr;
-  };
-  const term = () => {
-    let expr = factor();
-    while (match('MINUS', 'PLUS')) {
-      const operator = previous();
-      const right = factor();
-      if (!right) throw new ParseError(peek(), 'Expected right operand');
-      expr = ['binary', expr, operator, right];
+    get factor() {
+        let expression = this.unary;
+        while (this.match("SLASH", "STAR")) {
+            const operator = this.previous;
+            const right = this.unary;
+            expression = new Binary(expression, operator, right); 
+        }
+        return expression;
     }
-    return expr;
-  };
-  const comparison = () => {
-    let expr = term();
-    while (match('GREATER', 'GREATER_EQUAL', 'LESS', 'LESS_EQUAL')) {
-      const operator = previous();
-      const right = term();
-      if (!right) throw new ParseError(peek(), 'Expected right operand');
-      expr = ['binary', expr, operator, right];
+    get unary() {
+        if (this.match("BANG", "MINUS")) {
+            const operator = this.previous;
+            const expression = this.unary;
+            return new Unary(operator, expression);
+        }
+        return this.primary;
     }
-    return expr;
-  };
-  const equality = () => {
-    let expr = comparison();
-    while (match('BANG_EQUAL', 'EQUAL_EQUAL')) {
-      const operator = previous();
-      const right = comparison();
-      expr = ['binary', expr, operator, right];
+    get primary() {
+        const primaryValues = {
+            "FALSE": false,
+            "TRUE": true,
+            "NIL": null,
+        };
+        for (const value in primaryValues) {
+            if (this.match(value)) return new Literal(primaryValues[value]);
+        }
+        if (this.match("NUMBER", "STRING")) {
+            return new Literal(this.previous.literal);
+        }
+        if (this.match("LEFT_PAREN")) {
+            const expression = this.expression;
+            this.consume("RIGHT_PAREN", "Expect ')' after expression.")
+            return new Grouping(expression);
+        }
+        throw error(this.peek, "Expect expression.");
     }
-    return expr;
-  };
-  const expression = () => equality();
-  try {
-    const ast = expression();
-    return ast;
-  } catch (e) {
-    if (e instanceof ParseError) {
-      console.error(
-        `[line ${e.token.line}]`,
-        `error at '${e.token.text}'`,
-        e.message
-      );
-    } else {
-      console.error(e.message);
+    match(...types){
+        for (const type of types) {
+            if (this.check(type)) {
+                this.advance;
+                return true;
+            }
+        }
+        return false;
     }
-    return null;
-  }
+    consume(type, message) {
+        if (this.check(type)) return this.advance;
+        throw error(this.peek, message);
+    }
+    check(type) {
+        if (this.isAtEnd) return false;
+        return this.peek.type == type;
+    }
+    get advance() {
+        if (!this.isAtEnd) this.current++;
+        return this.previous;
+    }
+    get peek() {
+        return this.tokens[this.current];
+    }
+    get previous() {
+        return this.tokens[this.current - 1];
+    }
+    get isAtEnd() {
+        return this.peek.type === "EOF";
+    }
+    parse() {
+        try {
+            return this.expression;
+        } catch (e) {
+            // console.log("ERROR oco", e);
+            return null;
+        }
+    }
 }
-export function printAst(ast) {
-  if (!ast) return '';
-  const [type, ...children] = ast;
-  if (type === 'binary') {
-    const left = printAst(children[0]);
-    const right = printAst(children[2]);
-    return `(${children[1].text} ${left} ${right})`;
-  } else if (type === 'literal') {
-    return children[0];
-  } else if (type === 'grouping') {
-    return `(group ${printAst(children[0])})`;
-  } else if (type === 'unary') {
-    return `(${children[0].text} ${printAst(children[1])})`;
-  } else {
-    console.log('?', type, children);
-  }
+const error = (token, message) => {
+    if (token.type === "EOF") console.error(`[line ${token.line}] Error at end: ${message}`);
+    else  console.error(`[line ${token.line}] Error at '${token.lexeme}': ${message}`);
 }
+export {
+    // Parser,
+    printAst,
+    Parser,
+    Visitor,
+    // AstPrinter
+}
+// No newline at end of file
