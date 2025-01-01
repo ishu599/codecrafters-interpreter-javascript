@@ -15,29 +15,7 @@ const command = args[0];
 const filename = args[1];
 // Uncomment this block to pass the first stage
 const fileContent = fs.readFileSync(filename, "utf8");
-const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
-  RIGHT_PAREN: "RIGHT_PAREN",
-  LEFT_BRACE: "LEFT_BRACE",
-  RIGHT_BRACE: "RIGHT_BRACE",
-  COMMA: "COMMA",
-  DOT: "DOT",
-  MINUS: "MINUS",
-  PLUS: "PLUS",
-  SEMICOLON: "SEMICOLON",
-  STAR: "STAR",
-  EOF: "EOF",
-  BANG: "BANG",
-  BANG_EQUAL: "BANG_EQUAL",
-  EQUAL: "EQUAL",
-  EQUAL_EQUAL: "EQUAL_EQUAL",
-  GREATER: "GREATER",
-  GREATER_EQUAL: "GREATER_EQUAL",
-  LESS: "LESS",
-  LESS_EQUAL: "LESS_EQUAL",
-  SLASH: "SLASH",
-  STRING: "STRING",
-  NUMBER: "NUMBER",
-  IDENTIFIER: "IDENTIFIER"};
+
 
   const RESERVED_WORDS = {
   AND: "and",
@@ -57,6 +35,9 @@ const TOKENS = {LEFT_PAREN: "LEFT_PAREN",
   VAR: "var",
   WHILE: "while",
 };
+
+// to call the function based on the command
+evaluate(command);
 let token = [];
 let error = [];
 function printToken(token) {
@@ -110,6 +91,93 @@ function isInstance (number, type) {
   }
   return false;
 }
+<<<<<<< HEAD
+=======
+// when the command is evaluate
+let answer = [];
+function evaluate (fileContent) {
+ 
+  
+  if( fileContent.length != 0) {
+    const fileLines = fileContent.split("\n");
+  const text = fileLines[0];
+  const left = text[0];
+  const right = text[2];
+  const middle = text[1];
+  console.log(left,right,middle);
+  if (left === true) {{
+    answer += "true\n";
+  }
+  }
+  else if (middle === '-') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left - right + '\n');
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '+') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left + right);
+    }
+    else if (isInstance(left,'string') && isInstance(right,'string')) {
+      answer += (left + right);}
+    else console.error("Operands must be two numbers or two strings.");
+  }
+  else if (middle === '/') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left / right);
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '*') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left * right);
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '>') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left > right);
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '>=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left >= right);
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '<') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left < right);
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '<=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left <= right);
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '!=') {
+    if(isInstance(left,'float') && isInstance(right,'float')) {
+      answer += (left != right);
+    }
+    else console.error("operand must be a number");
+  }
+  else if (middle === '===') {
+    if (left === null && right === null) return true;
+    else if (left === null) return false;
+    answer += (left === right); 
+  }
+  
+    
+    
+    else if (left === null) return false;
+  }
+  console.log(answer);
+}
+>>>>>>> ee18377a035be266617fc59060731bffff9b9599
 
 
 
@@ -156,7 +224,33 @@ if (fileContent.length !== 0) {
       else if(str[j]==";"){
         token+=`${TOKENS.SEMICOLON} ; null\n`;
       }
-      // checking for digit
+      
+      // identify if the line contains any identiier word
+      else if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_") {
+        
+        let string_identifier = "";
+        let startingindex = j;
+        while((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z') || str[j]=="_" || (str[j] >= '0' && str[j] <= '9')) {
+          j++;
+        }
+        string_identifier = str.slice(startingindex,j);
+        const captialstring = string_identifier.toUpperCase();
+        for (const tokens in TOKENS) {
+          if (tokens === string_identifier) {
+            token += `${TOKENS.captialstring} ${string_identifier} null\n`;
+            break;
+          }
+        }
+        // find length of string to check the last character of string for _
+        
+          token += `IDENTIFIER ${string_identifier} null\n`;
+          j--;
+        haserror = true;
+        continue;
+      }
+      else if(str[j]==" " || str[j]=="\t"){
+        continue;
+      }
       else if (isDigit(str[j])) {
         const startDigit = j;
         while (j < str.length && str[j] >= '0' && str[j] <= '9') {
@@ -285,16 +379,7 @@ if (!haserror) {
   process.exit(0);
 }
 
-switch (command) {
-  case "tokenize":
-    tokenize(fileContent);
-  case "evaluate":
-    let final_value = evaluate(fileContent);
-  case "parse":
-    evaluate(fileContent);
-  default:
-    unknowncommand(command);
-}
+
 
 if(error !== ""){
   process.exit(65);
