@@ -98,7 +98,7 @@ let answer = [];
 // when the command is evaluate
 
 
-export function evaluate (fileContent) {
+function evaluate (fileContent) {
   if( fileContent.length != 0) {
   let fileLines2 = File(fileContent).readFileSync();
   let text = fileLines2.split(" ");
