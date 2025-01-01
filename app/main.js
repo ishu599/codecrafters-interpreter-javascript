@@ -91,8 +91,7 @@ function isInstance (number, type) {
   }
   return false;
 }
-<<<<<<< HEAD
-=======
+
 // when the command is evaluate
 let answer = [];
 function evaluate (fileContent) {
@@ -177,7 +176,7 @@ function evaluate (fileContent) {
   }
   console.log(answer);
 }
->>>>>>> ee18377a035be266617fc59060731bffff9b9599
+
 
 
 
