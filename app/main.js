@@ -97,7 +97,7 @@ let answer = [];
 
 // when the command is evaluate
 
-
+/** 
 function evaluate (fileContent) {
   if( fileContent.length != 0) {
   let fileLines2 = File(fileContent).readFileSync();
@@ -175,7 +175,7 @@ function evaluate (fileContent) {
   }
 }
 
-
+*/
 
 
 

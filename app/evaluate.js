@@ -1,80 +1,31 @@
-// when the command is evaluate
-
-
-export function evaluate (fileContent) {
-    if( fileContent.length != 0) {
-    let fileLines2 = File(fileContent).readFileSync();
-    let text = fileLines2.split(" ");
-    let left = text[0];
-    let right = text[2];
-    if (text[1] === '-') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
-        return left - right;
-      }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '+') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
+export function evaluate(ast) {
+    if (!ast) return null;
+    const [type, ...children] = ast;
+    if (type === 'binary') {
+      const left = evaluate(children[0]);
+      const right = evaluate(children[2]);
+      if (children[1].type === 'PLUS') {
         return left + right;
-      }
-      else if (isInstance(left,'string') && isInstance(right,'atring')) {
-        return left + right;}
-      else console.error("Operands must be two numbers or two strings.");
-    }
-    else if (text[1] === '/') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
-        return left / right;
-      }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '*') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
+      } else if (children[1].type === 'MINUS') {
+        return left - right;
+      } else if (children[1].type === 'STAR') {
         return left * right;
+      } else if (children[1].type === 'SLASH') {
+        return left / right;
+      } else {
+        console.warn('? not handled', children[1]);
       }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '>') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
-        return left > right;
+    } else if (type === 'literal') {
+      return children[1];
+    } else if (type === 'grouping') {
+      return evaluate(children[0]);
+    } else if (type === 'unary') {
+      if (children[0].type === 'MINUS') {
+        return -evaluate(children[1]);
+      } else {
+        console.warn('? not handled', children[0]);
       }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '>=') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
-        return left >= right;
-      }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '<') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
-        return left < right;
-      }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '<=') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
-        return left <= right;
-      }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '!=') {
-      if(isInstance(left,'float') && isInstance(right,'float')) {
-        return left != right;
-      }
-      else console.error("operand must be a number");
-    }
-    else if (text[1] === '===') {
-      if (left === null && right === null) return true;
-      else if (left === null) return false;
-      return left === right; 
-    }
-    
-      else if (left === null) return false;
-      else if (isInstance(left, "bool")) {
-        return left;
-      }
-      return true;
-    
+    } else {
+      console.log('?', type, children);
     }
   }
-  
