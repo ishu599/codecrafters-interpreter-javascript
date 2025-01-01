@@ -1,45 +1,50 @@
-import fs from 'fs';
-import { scan } from './scanner.js';
-import { parse, printAst } from './parser.js';
-import { evaluate } from './evaluate.js';
+import fs from "fs";
+import { Lox } from "./lox.js";
+import { AstPrinter } from "./tool/ast_printer.js";
+import process from "process";
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
-  console.error('Usage: ./your_program.sh tokenize <filename>');
-  process.exit(65);
+  console.error("Usage: ./your_program.sh tokenize <filename>");
+  process.exit(1);
 }
 const command = args[0];
-if (command === 'tokenize') {
-  const filename = args[1];
-  const fileContent = fs.readFileSync(filename, 'utf8');
-  const { tokens, errors } = scan(fileContent);
-  for (const token of tokens) {
-    console.log(token.type, token.text, token.litteral);
+const filename = args[1];
+if (command == "tokenize") {
+  const fileContent = fs.readFileSync(filename, "utf8");
+  if (fileContent.length !== 0) {
+    const lox = new Lox(fileContent);
+    lox.tokenize();
+    for (let token of lox.scanner.tokens) {
+      console.log(token.toString());
+    }
+    if (lox.hasError) process.exit(65);
+  } else {
+    console.log("EOF  null");
   }
-  if (errors > 0) {
-    process.exit(65);
+}
+if (command == "parse") {
+  const fileContent = fs.readFileSync(filename, "utf8");
+  const astPrinter = new AstPrinter();
+  if (fileContent.length !== 0) {
+    const lox = new Lox(fileContent);
+    lox.tokenize();
+    lox.parse();
+    console.log(astPrinter.print(lox.expression));
+    if (lox.hasError) process.exit(65);
+  } else {
+    console.log("EOF  null");
   }
-} else if (command === 'parse') {
-  const filename = args[1];
-  const fileContent = fs.readFileSync(filename, 'utf8');
-  const { tokens, errors } = scan(fileContent);
-  if (errors > 0) {
-    process.exit(65);
+}
+if (command == "evaluate") {
+  const fileContent = fs.readFileSync(filename, "utf8");
+  if (fileContent.length !== 0) {
+    const lox = new Lox(fileContent);
+    lox.tokenize();
+    lox.parse();
+    const result = lox.evaluate();
+    console.log(result);
+    if (lox.hasError) process.exit(65);
+  } else {
+    console.log("EOF  null");
   }
-  let ast = parse(tokens);
-  if (ast) console.log(printAst(ast));
-  else process.exit(65);
-} else if (command === 'evaluate') {
-  const filename = args[1];
-  const fileContent = fs.readFileSync(filename, 'utf8');
-  const { tokens, errors } = scan(fileContent);
-  if (errors > 0) {
-    process.exit(65);
-  }
-  let ast = parse(tokens);
-  if (!ast) process.exit(65);
-  const result = evaluate(ast);
-  console.info(result);
-} else {
-  console.error('Unknown command:', command);
-  process.exit(1);
 }
