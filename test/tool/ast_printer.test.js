@@ -1,11 +1,11 @@
 import { describe, expect, test } from "@jest/globals";
-import { AstPrinter } from "../../app/tool/ast_printer.js";
-import { Literal } from "../../app/expressions/literal.js";
-import { Grouping } from "../../app/expressions/grouping.js";
-import { Unary } from "../../app/expressions/unary.js";
-import { Token } from "../../app/token.js";
-import { Binary } from "../../app/expressions/binary.js";
-import { Lox } from "../../app/lox.js";
+import { AstPrinter } from "../app/tool/ast_printer.js";
+import { Literal } from "../app/expressions/literal.js";
+import { Grouping } from "../app/expressions/grouping.js";
+import { Unary } from "../app/expressions/unary.js";
+import { Token } from "../app/token.js";
+import { Binary } from "../app/expressions/binary.js";
+import { Lox } from "../app/lox.js";
 test("Test with numbers", () => {
     let ast_printer = new AstPrinter();
     let result = ast_printer.print(new Literal(null));
