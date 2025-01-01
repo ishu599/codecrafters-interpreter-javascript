@@ -39,6 +39,7 @@ if (command === 'tokenize') {
   if (!ast) process.exit(65);
   const result = evaluate(ast);
   console.info(result);
+  process.exit(0);
 } else {
   console.error('Unknown command:', command);
   process.exit(1);
