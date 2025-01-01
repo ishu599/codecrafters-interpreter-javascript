@@ -28,5 +28,5 @@ export function evaluate(ast) {
     } else {
       console.log('?', type, children);
     }
-    Process.exit(0);
+    
   }

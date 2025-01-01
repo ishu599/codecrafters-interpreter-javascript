@@ -5,7 +5,7 @@ import { evaluate } from './evaluate.js';
 const args = process.argv.slice(2); // Skip the first two arguments (node path and script path)
 if (args.length < 2) {
   console.error('Usage: ./your_program.sh tokenize <filename>');
-  process.exit(1);
+  process.exit(65);
 }
 const command = args[0];
 if (command === 'tokenize') {
@@ -39,7 +39,6 @@ if (command === 'tokenize') {
   if (!ast) process.exit(65);
   const result = evaluate(ast);
   console.info(result);
-  process.exit(0);
 } else {
   console.error('Unknown command:', command);
   process.exit(1);
